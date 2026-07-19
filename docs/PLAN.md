@@ -14,10 +14,10 @@
 
 _Last checkpoint: none yet_
 
-- **Just shipped:** **both P2 migrations forged AND built** (2026-07-19): minimalism at v0.2.0 (embedded ruleset, fourth user-scope destination, ponytail provenance) and orchestrate at v0.3.0 (skill + 4 agents byte-identical to validated originals; SUPERVISOR mode validated GREEN in a live Opus-orchestrator/Fable-advisor run that also decided the P3 triage order — debug-to-gotcha first).
-- **In flight:** the interactive smoke-test + cutover — needs a user-driven session: `/plugin marketplace add` (local path) + install + verify v0.3.0 loads, then with user go-ahead delete the local originals (`~/.claude/commands/minimalism.md`; `~/.claude/skills/orchestrate/` + the four `~/.claude/agents/*.md`) and the throwaway dirs `C:\tmp\orchestrate-test` / `C:\tmp\orchestrate-demo`.
+- **Just shipped:** **v0.3.0 installed, verified, cutover complete** (2026-07-19): both P2 residents live at user scope (all cached files byte-identical to repo; agents visible as `repertoire:*`); the five `~/.claude/` originals and the two `C:\tmp` orchestrate test dirs deleted — the plugin is now the single source of truth. SUPERVISOR mode validated GREEN same day (live Opus-orchestrator/Fable-advisor run that also decided the P3 triage order).
+- **In flight:** nothing — clean stopping point.
 - **Next:** **P3 — build `debug-to-gotcha`** (order decided, see Decisions log; check growing-docs' parked backlog entry wording first — if docs-in/docs-out, ownership flips). Known convention gap to resolve in its forge: the Ending's "growing-docs host but feature doc absent" middle case.
-- **Start here:** `docs/feature-orchestrate.md` (incl. Spike findings), `docs/feature-minimalism.md`, this file's Decisions log tail
+- **Start here:** `docs/feature-orchestrate.md` (incl. Spike findings), this file's Decisions log tail, `docs/RULES.md` §Resident Conventions
 
 ## Vision
 

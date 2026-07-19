@@ -43,4 +43,5 @@ _Forged 2026-07-19 (storage, user-scope, cutover user-confirmed; the rest derive
 ## Changelog
 
 - 2026-07-19: Migration design forged (embedded storage, fourth user-scope destination, delete-after-verify cutover, provenance block; coexistence ownership confirmed settled)
-- 2026-07-19: Built as v0.2.0 — command migrated into plugin with provenance block, fifth marker location + fourth destination (user scope), layering exception in Step 1; ruleset block verified byte-identical to the field-proven v3; `claude plugin validate` green. **Pending:** in-session install verify, then delete `~/.claude/commands/minimalism.md` (cutover)
+- 2026-07-19: Built as v0.2.0 — command migrated into plugin with provenance block, fifth marker location + fourth destination (user scope), layering exception in Step 1; ruleset block verified byte-identical to the field-proven v3; `claude plugin validate` green.
+- 2026-07-19: Install verified (plugin v0.3.0 at user scope, cached file byte-identical to repo) and **cutover complete** — `~/.claude/commands/minimalism.md` deleted; `/repertoire:minimalism` is now the single source.

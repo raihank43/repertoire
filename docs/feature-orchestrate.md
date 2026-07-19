@@ -49,4 +49,5 @@ _Forged 2026-07-19 (model pins, invocation, ending, supervisor-validation path u
 ## Changelog
 
 - 2026-07-19: Migration design forged; SUPERVISOR validation run GREEN (override-refusal path still unobserved)
-- 2026-07-19: Built as v0.3.0 — skill + 4 agents copied into plugin (agents byte-identical to validated originals; skill changed only in the genericized SUPERVISOR example + new `## Ending`); `claude plugin validate` green. **Pending:** in-session install verify, then delete the five `~/.claude/` originals (cutover) and the throwaway test dirs `C:\tmp\orchestrate-test` / `C:\tmp\orchestrate-demo`
+- 2026-07-19: Built as v0.3.0 — skill + 4 agents copied into plugin (agents byte-identical to validated originals; skill changed only in the genericized SUPERVISOR example + new `## Ending`); `claude plugin validate` green.
+- 2026-07-19: Install verified (v0.3.0 at user scope; all 7 cached files byte-identical to repo; the four agents visible as `repertoire:*` agent types in a live session) and **cutover complete** — `~/.claude/skills/orchestrate/` + the four `~/.claude/agents/*.md` deleted; throwaway test dirs `C:\tmp\orchestrate-test` / `C:\tmp\orchestrate-demo` removed.
