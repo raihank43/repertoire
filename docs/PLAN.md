@@ -14,10 +14,10 @@
 
 _Last checkpoint: none yet_
 
-- **Just shipped:** brainstorm complete — roadmap agreed, all six pitch questions decided (2026-07-19, via /project-init); phase flipped to BUILDING
-- **In flight:** nothing — clean stopping point
-- **Next:** **forge the two P1s before building** (user chose forge-foundational-up-front): first `/forge` the plugin packaging skeleton, then `/forge` the house conventions. The migrations' open sub-questions are pre-captured in `docs/specs/pitch-2026-07-19.md` §Follow-ups — feed them into the later forges.
-- **Start here:** this file's Features table + Decisions log, `docs/ARCHITECTURE.md`, `docs/specs/pitch-2026-07-19.md`
+- **Just shipped:** plugin-packaging skeleton **design forged** (2026-07-19) — naming (`repertoire@repertoire`), no empty component dirs, local-path smoke-test, semver from 0.1.0. Decided design in `docs/feature-plugin-packaging.md`.
+- **In flight:** nothing — skeleton is designed but **not built yet**
+- **Next:** either **build the skeleton** from `feature-plugin-packaging.md` (small: two JSON files + smoke-test), or `/forge` the second P1 (house conventions) first so both designs are settled before building. Migrations' open sub-questions remain pre-captured in `docs/specs/pitch-2026-07-19.md` §Follow-ups.
+- **Start here:** `docs/feature-plugin-packaging.md`, this file's Features table + Decisions log, `docs/ARCHITECTURE.md`
 
 ## Vision
 
@@ -59,7 +59,7 @@ Un-triaged ideas live in `docs/BACKLOG.md` (created on demand) — **this table 
 
 | Feature | Priority | Status | Doc |
 |---------|----------|--------|-----|
-| Plugin packaging skeleton (marketplace.json, plugin.json, empty skills/agents/commands/, install smoke-test) | P1 | planned | — |
+| Plugin packaging skeleton (marketplace.json, plugin.json, install smoke-test; component dirs arrive with residents) | P1 | planned | [feature-plugin-packaging.md](feature-plugin-packaging.md) |
 | House conventions in RULES.md (`## Ending` section, invocation-mode frontmatter, provenance block format, resident README-table row) | P1 | planned | — |
 | Migrate `/minimalism` (rule text → `rules/`, command → plugin; resolve content-storage sub-question; provenance from ponytail) | P2 | planned | — |
 | Migrate `/orchestrate` bundle (skill + 4 agents; model-pinning portability; user-invoked mode; docs-ending shape) | P2 | planned | — |
@@ -82,6 +82,7 @@ Record every significant decision so future-you (or post-compaction-you) knows W
 | **Install via Claude Code plugin marketplace** (marketplace.json in this repo, one plugin) | Proven model from growing-docs; ships skills+agents+commands together with versioned auto-update at user scope; solves orchestrate's bundle-install problem natively. Verified against official plugins-reference | 2026-07-19 |
 | **Claude-only for now**; Codex deferred to backlog | User doesn't run Codex day-to-day; Agent Skills standard means SKILL.md folders port later via a thin copy step to `~/.agents/skills` | 2026-07-19 |
 | Compliance convention = **`## Ending` section** in SKILL.md body (for skills producing durable knowledge) | The body is what the model executes — frontmatter is inert for behavior. States where output lands in a growing-docs host + chat-only fallback. Minimalism's inverse shape (gate-recognized rule) gets a provenance note instead. Convention documented once in RULES.md | 2026-07-19 |
+| Plugin **semver from 0.1.0**; 1.0.0 gated on both P2 migrations landing validated | Empty-shell skeleton shouldn't claim v1; patch = fix, minor = resident change (forge: plugin-packaging) | 2026-07-19 |
 
 ## Rejected Ideas
 

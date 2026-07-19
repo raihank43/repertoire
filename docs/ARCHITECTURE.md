@@ -27,7 +27,7 @@ repertoire/
 └── README.md                       # resident index table with one-liners + provenance
 ```
 
-> **Layout-by-shape note:** the top-level split is by artifact shape because shape determines install destination. Within the plugin, Claude Code dictates `skills/` vs `agents/` vs `commands/`; a *bundle* (orchestrate) is expressed as its SKILL.md in `skills/` plus its agents in `agents/`, cross-referenced in both directions. Exact in-repo layout may refine when the first residents migrate.
+> **Layout-by-shape note:** the tree above is the *target* shape — component dirs (`skills/`, `agents/`, `commands/`, `rules/`) are created by the first resident that needs them, not committed empty (decided in the plugin-packaging forge). The top-level split is by artifact shape because shape determines install destination. Within the plugin, Claude Code dictates `skills/` vs `agents/` vs `commands/`; a *bundle* (orchestrate) is expressed as its SKILL.md in `skills/` plus its agents in `agents/`, cross-referenced in both directions. Exact in-repo layout may refine when the first residents migrate.
 
 ## System Overview
 
