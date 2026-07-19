@@ -24,6 +24,7 @@ Restart Claude Code after install — skills are discovered at startup.
 | Resident | Shape | Invocation | What it does | Provenance |
 |----------|-------|------------|--------------|------------|
 | minimalism | rule + command | `/repertoire:minimalism` | Scaffolds an always-on token-efficiency ruleset (lazy-senior ladder, comment policy, design-bar guard) into a repo or user scope; re-run to update in place | derived: [ponytail](https://github.com/DietrichGebert/ponytail) (MIT), reimplemented |
+| orchestrate | skill + 4 agents | `/repertoire:orchestrate` | Delegation protocol — briefs with testable acceptance criteria, cheap explorer fan-out, runner + reviewer gate, PEER/SUPERVISOR advisor; judgment never delegated | original |
 
 ## Tech Stack
 

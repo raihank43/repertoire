@@ -14,10 +14,10 @@
 
 _Last checkpoint: none yet_
 
-- **Just shipped:** **both P1s forged AND built** (2026-07-19): manifests live at v0.1.0, `claude plugin validate` passes on both; house conventions written into RULES.md (Resident Conventions section + Glossary), README rewritten with install steps + empty resident table.
-- **In flight:** smoke-test steps 1–3 (interactive `/plugin marketplace add` by local path + install + `/plugin` check) — needs a user-driven session; CLI validation already green.
-- **Next:** **P2 — migrate `/minimalism`** (first resident: rule + command; open sub-questions pre-captured in `docs/specs/pitch-2026-07-19.md` §Follow-ups — feed them into its `/forge`), then `/orchestrate`.
-- **Start here:** `docs/RULES.md` §Resident Conventions, `docs/feature-plugin-packaging.md` (smoke-test steps), `docs/specs/pitch-2026-07-19.md` §Follow-ups
+- **Just shipped:** **both P2 migrations forged AND built** (2026-07-19): minimalism at v0.2.0 (embedded ruleset, fourth user-scope destination, ponytail provenance) and orchestrate at v0.3.0 (skill + 4 agents byte-identical to validated originals; SUPERVISOR mode validated GREEN in a live Opus-orchestrator/Fable-advisor run that also decided the P3 triage order — debug-to-gotcha first).
+- **In flight:** the interactive smoke-test + cutover — needs a user-driven session: `/plugin marketplace add` (local path) + install + verify v0.3.0 loads, then with user go-ahead delete the local originals (`~/.claude/commands/minimalism.md`; `~/.claude/skills/orchestrate/` + the four `~/.claude/agents/*.md`) and the throwaway dirs `C:\tmp\orchestrate-test` / `C:\tmp\orchestrate-demo`.
+- **Next:** **P3 — build `debug-to-gotcha`** (order decided, see Decisions log; check growing-docs' parked backlog entry wording first — if docs-in/docs-out, ownership flips). Known convention gap to resolve in its forge: the Ending's "growing-docs host but feature doc absent" middle case.
+- **Start here:** `docs/feature-orchestrate.md` (incl. Spike findings), `docs/feature-minimalism.md`, this file's Decisions log tail
 
 ## Vision
 
@@ -62,8 +62,8 @@ Un-triaged ideas live in `docs/BACKLOG.md` (created on demand) — **this table 
 | Plugin packaging skeleton (marketplace.json, plugin.json, install smoke-test; component dirs arrive with residents) | P1 | done | [feature-plugin-packaging.md](feature-plugin-packaging.md) |
 | House conventions in RULES.md (`## Ending` section, invocation-mode frontmatter, provenance block format, resident README-table row) | P1 | done | [feature-house-conventions.md](feature-house-conventions.md) |
 | Migrate `/minimalism` (command + embedded ruleset → plugin; user-scope destination added; provenance from ponytail) | P2 | done | [feature-minimalism.md](feature-minimalism.md) |
-| Migrate `/orchestrate` bundle (skill + 4 agents; model-pinning portability; user-invoked mode; docs-ending shape) | P2 | planned | — |
-| Triage candidate residents (debug-to-gotcha, pre-flight, handoff; steal-list from senior's + Pocock's repos) | P3 | planned | — |
+| Migrate `/orchestrate` bundle (skill + 4 agents; model-pinning portability; user-invoked mode; docs-ending shape) | P2 | done | [feature-orchestrate.md](feature-orchestrate.md) |
+| Triage candidate residents (order decided 2026-07-19: debug-to-gotcha build-first, pre-flight adapt-later, handoff route-to-growing-docs-or-cut) | P3 | planned | — |
 | Codex export path (thin copy to `~/.agents/skills`) | P4 | planned | — |
 
 Status values: `planned` | `in-progress` | `done` | `cut`
@@ -86,6 +86,7 @@ Record every significant decision so future-you (or post-compaction-you) knows W
 | Invocation mode declared by the **native `disable-model-invocation` field alone** | The mechanism is the declaration — a parallel custom marker would be inert and drift-prone (forge: house-conventions) | 2026-07-19 |
 | Provenance = **inert HTML comment in the resident file** + README short form | Lineage travels with a copied file without spending prompt tokens; rendered body section rejected (forge: house-conventions) | 2026-07-19 |
 | Rule residents = **command with embedded ruleset block**, no top-level `rules/` dir | Proven v3 single-file shape; a standalone file the command Reads adds a `${CLAUDE_PLUGIN_ROOT}` runtime dependency for zero behavioral gain (forge: minimalism) | 2026-07-19 |
+| **P3 triage order: debug-to-gotcha first**, pre-flight adapt-later, handoff route-to-growing-docs-or-cut; principle = flagship-value → friction → throughput | Advisor consult (Fable, SUPERVISOR mode — doubled as the mode's validation run): debug-to-gotcha is original, the canonical `## Ending` exemplar, and closes the parked growing-docs ownership question. Would-change-my-mind: if the user's near-term pain is session-start discipline, pre-flight-first is defensible; if growing-docs' parked entry specifies docs-in/docs-out, ownership flips | 2026-07-19 |
 
 ## Rejected Ideas
 
