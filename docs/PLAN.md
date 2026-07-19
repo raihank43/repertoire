@@ -12,11 +12,11 @@
 
 > The 30-second cold-start brief — so a fresh session (or a post-compaction one) can resume *without re-reading everything*. Kept current by `/checkpoint`: **the tight brief only** lives here (~15–30 lines); the full session reports go to `docs/CHECKPOINTS.md` (created by `/checkpoint`, newest first). **Read this first**, then read only the docs the "Start here" line points to. **"Next" is the tip, not the queue:** the full picture is the Features table below (priority-ordered) plus any un-triaged ideas in `docs/BACKLOG.md`.
 
-_Last checkpoint: none yet_
+_Last checkpoint: 0174b31 (2026-07-19)_
 
-- **Just shipped:** v0.3.0 installed + cutover complete (2026-07-19, plugin is the single source of truth); then **P3 reframed to demand-driven intake** — the triage build-queue (debug-to-gotcha first) is superseded via the advisor's own would-change-my-mind clause; the three shortlisted candidates moved to `docs/BACKLOG.md` (shelved, not rejected) alongside an engineering-practice borrow-list (tip: tdd, code-review).
+- **Just shipped:** v0.3.0 installed + cutover complete (plugin is the single source of truth); **P3 reframed to demand-driven intake** (shortlist shelved to BACKLOG); borrow-list research folded in read-now (8 skill bodies read; `taste` elevated for frontend work; meta-skills gap identified). Full report: `docs/CHECKPOINTS.md` 2026-07-19.
 - **In flight:** nothing — clean stopping point.
-- **Next:** no build queue by design. Residents arrive when a gap bites during real work: one line into `docs/BACKLOG.md` → `/forge` on recurrence (build or borrow decided then). Also open when wanted: bump to **1.0.0** (its gate — both P2 migrations validated — was met 2026-07-19).
+- **Next:** no build queue by design — residents arrive when a gap bites during real work: one line into `docs/BACKLOG.md` → `/forge` on recurrence (build or borrow decided then). _(user-stated 2026-07-19.)_ Also open when wanted: bump to **1.0.0** (gate met — both P2 migrations validated). Queue tail: 2 planned Features rows (P3 intake, P4 Codex export) + ~13 BACKLOG ideas (3 shelved candidates, ~8 borrow-list, 2 meta-skills).
 - **Start here:** this file's Decisions log tail (the reframe entry), `docs/BACKLOG.md`, `docs/RULES.md` §Resident Conventions
 
 ## Vision
