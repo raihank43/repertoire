@@ -89,7 +89,7 @@ Commit after every meaningful, **verified** change — never let working code ac
   - `fix(cart): prevent negative quantity on item update`
   - `docs(search): document elasticsearch gotchas`
 
-Remote: {to be configured}
+Remote: https://github.com/raihank43/repertoire (public)
 
 ## Project Artifacts Index
 

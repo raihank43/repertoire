@@ -1,6 +1,6 @@
 # Project Plan
 
-## Project Phase: BRAINSTORMING
+## Project Phase: BUILDING
 
 > **This marker controls how Claude behaves at the start of every session — read it first.**
 > - `BRAINSTORMING` — the vision/roadmap below isn't settled yet. Before building features, help the user complete the Vision and Features sections. Ask, propose, refine. Don't jump into code.
@@ -14,10 +14,10 @@
 
 _Last checkpoint: none yet_
 
-- **Just shipped:** scaffold + initial brainstorm started (2026-07-19, via /project-init; pitch at `docs/specs/pitch-2026-07-19.md`)
-- **In flight:** brainstorm — reference repos researched; official-docs research (plugin capabilities, rules dirs, Codex interop) pending; install mechanism + repo model undecided
-- **Next:** decide install mechanism (#2) and the multi-artifact repo model (skill/rule/agent-bundle folders), then the compliance convention shape (#3)
-- **Start here:** `docs/specs/pitch-2026-07-19.md`, this file's Vision + Decisions
+- **Just shipped:** brainstorm complete — roadmap agreed, all six pitch questions decided (2026-07-19, via /project-init); phase flipped to BUILDING
+- **In flight:** nothing — clean stopping point
+- **Next:** **forge the two P1s before building** (user chose forge-foundational-up-front): first `/forge` the plugin packaging skeleton, then `/forge` the house conventions. The migrations' open sub-questions are pre-captured in `docs/specs/pitch-2026-07-19.md` §Follow-ups — feed them into the later forges.
+- **Start here:** this file's Features table + Decisions log, `docs/ARCHITECTURE.md`, `docs/specs/pitch-2026-07-19.md`
 
 ## Vision
 
@@ -59,7 +59,12 @@ Un-triaged ideas live in `docs/BACKLOG.md` (created on demand) — **this table 
 
 | Feature | Priority | Status | Doc |
 |---------|----------|--------|-----|
-| | | | |
+| Plugin packaging skeleton (marketplace.json, plugin.json, empty skills/agents/commands/, install smoke-test) | P1 | planned | — |
+| House conventions in RULES.md (`## Ending` section, invocation-mode frontmatter, provenance block format, resident README-table row) | P1 | planned | — |
+| Migrate `/minimalism` (rule text → `rules/`, command → plugin; resolve content-storage sub-question; provenance from ponytail) | P2 | planned | — |
+| Migrate `/orchestrate` bundle (skill + 4 agents; model-pinning portability; user-invoked mode; docs-ending shape) | P2 | planned | — |
+| Triage candidate residents (debug-to-gotcha, pre-flight, handoff; steal-list from senior's + Pocock's repos) | P3 | planned | — |
+| Codex export path (thin copy to `~/.agents/skills`) | P4 | planned | — |
 
 Status values: `planned` | `in-progress` | `done` | `cut`
 
