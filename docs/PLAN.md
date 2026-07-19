@@ -14,10 +14,10 @@
 
 _Last checkpoint: none yet_
 
-- **Just shipped:** **v0.3.0 installed, verified, cutover complete** (2026-07-19): both P2 residents live at user scope (all cached files byte-identical to repo; agents visible as `repertoire:*`); the five `~/.claude/` originals and the two `C:\tmp` orchestrate test dirs deleted — the plugin is now the single source of truth. SUPERVISOR mode validated GREEN same day (live Opus-orchestrator/Fable-advisor run that also decided the P3 triage order).
+- **Just shipped:** v0.3.0 installed + cutover complete (2026-07-19, plugin is the single source of truth); then **P3 reframed to demand-driven intake** — the triage build-queue (debug-to-gotcha first) is superseded via the advisor's own would-change-my-mind clause; the three shortlisted candidates moved to `docs/BACKLOG.md` (shelved, not rejected) alongside an engineering-practice borrow-list (tip: tdd, code-review).
 - **In flight:** nothing — clean stopping point.
-- **Next:** **P3 — build `debug-to-gotcha`** (order decided, see Decisions log; check growing-docs' parked backlog entry wording first — if docs-in/docs-out, ownership flips). Known convention gap to resolve in its forge: the Ending's "growing-docs host but feature doc absent" middle case.
-- **Start here:** `docs/feature-orchestrate.md` (incl. Spike findings), this file's Decisions log tail, `docs/RULES.md` §Resident Conventions
+- **Next:** no build queue by design. Residents arrive when a gap bites during real work: one line into `docs/BACKLOG.md` → `/forge` on recurrence (build or borrow decided then). Also open when wanted: bump to **1.0.0** (its gate — both P2 migrations validated — was met 2026-07-19).
+- **Start here:** this file's Decisions log tail (the reframe entry), `docs/BACKLOG.md`, `docs/RULES.md` §Resident Conventions
 
 ## Vision
 
@@ -63,7 +63,7 @@ Un-triaged ideas live in `docs/BACKLOG.md` (created on demand) — **this table 
 | House conventions in RULES.md (`## Ending` section, invocation-mode frontmatter, provenance block format, resident README-table row) | P1 | done | [feature-house-conventions.md](feature-house-conventions.md) |
 | Migrate `/minimalism` (command + embedded ruleset → plugin; user-scope destination added; provenance from ponytail) | P2 | done | [feature-minimalism.md](feature-minimalism.md) |
 | Migrate `/orchestrate` bundle (skill + 4 agents; model-pinning portability; user-invoked mode; docs-ending shape) | P2 | done | [feature-orchestrate.md](feature-orchestrate.md) |
-| Triage candidate residents (order decided 2026-07-19: debug-to-gotcha build-first, pre-flight adapt-later, handoff route-to-growing-docs-or-cut) | P3 | planned | — |
+| Demand-driven resident intake (capture gaps in BACKLOG while working; `/forge` on recurrence — build or borrow decided then; borrow-list tip: tdd, code-review from mattpocock/skills) | P3 | planned | — |
 | Codex export path (thin copy to `~/.agents/skills`) | P4 | planned | — |
 
 Status values: `planned` | `in-progress` | `done` | `cut`
@@ -87,6 +87,7 @@ Record every significant decision so future-you (or post-compaction-you) knows W
 | Provenance = **inert HTML comment in the resident file** + README short form | Lineage travels with a copied file without spending prompt tokens; rendered body section rejected (forge: house-conventions) | 2026-07-19 |
 | Rule residents = **command with embedded ruleset block**, no top-level `rules/` dir | Proven v3 single-file shape; a standalone file the command Reads adds a `${CLAUDE_PLUGIN_ROOT}` runtime dependency for zero behavioral gain (forge: minimalism) | 2026-07-19 |
 | **P3 triage order: debug-to-gotcha first**, pre-flight adapt-later, handoff route-to-growing-docs-or-cut; principle = flagship-value → friction → throughput | Advisor consult (Fable, SUPERVISOR mode — doubled as the mode's validation run): debug-to-gotcha is original, the canonical `## Ending` exemplar, and closes the parked growing-docs ownership question. Would-change-my-mind: if the user's near-term pain is session-start discipline, pre-flight-first is defensible; if growing-docs' parked entry specifies docs-in/docs-out, ownership flips | 2026-07-19 |
+| **P3 reframed: demand-driven intake supersedes the triage build-queue** — capture gaps in BACKLOG while working, `/forge` on recurrence; engineering-practice skills over workflow-shaped ones | User call, via the advisor's own would-change-my-mind clause (only the user knows the near-term pain). All three shortlisted candidates are workflow-shaped and overlap growing-docs in adopted repos (debug-to-gotcha's ending ≈ the workflow's mandated gotcha capture; pre-flight ≈ Step 1; handoff ≈ /checkpoint) — their value activates only in un-adopted repos. Mirrors house doctrine: minimalism rung 1 + growing-docs' organic-only precedent. Borrow-list tip if a gap pulls: tdd, code-review | 2026-07-19 |
 
 ## Rejected Ideas
 
