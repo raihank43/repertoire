@@ -14,10 +14,10 @@
 
 _Last checkpoint: none yet_
 
-- **Just shipped:** **both P1 designs forged** (2026-07-19): plugin-packaging skeleton (`repertoire@repertoire`, no empty dirs, local-path smoke-test, semver from 0.1.0) and house conventions (native-field invocation mode, two-bullet `## Ending`, HTML-comment provenance, five-column README table).
-- **In flight:** nothing — both P1s designed, **neither built yet**
-- **Next:** **build both P1s** from their feature docs (small: two JSON manifests + smoke-test; RULES.md sections + README table seed), then the P2 migrations — their open sub-questions are pre-captured in `docs/specs/pitch-2026-07-19.md` §Follow-ups.
-- **Start here:** `docs/feature-plugin-packaging.md`, `docs/feature-house-conventions.md`, this file's Features table + Decisions log
+- **Just shipped:** **both P1s forged AND built** (2026-07-19): manifests live at v0.1.0, `claude plugin validate` passes on both; house conventions written into RULES.md (Resident Conventions section + Glossary), README rewritten with install steps + empty resident table.
+- **In flight:** smoke-test steps 1–3 (interactive `/plugin marketplace add` by local path + install + `/plugin` check) — needs a user-driven session; CLI validation already green.
+- **Next:** **P2 — migrate `/minimalism`** (first resident: rule + command; open sub-questions pre-captured in `docs/specs/pitch-2026-07-19.md` §Follow-ups — feed them into its `/forge`), then `/orchestrate`.
+- **Start here:** `docs/RULES.md` §Resident Conventions, `docs/feature-plugin-packaging.md` (smoke-test steps), `docs/specs/pitch-2026-07-19.md` §Follow-ups
 
 ## Vision
 
@@ -59,8 +59,8 @@ Un-triaged ideas live in `docs/BACKLOG.md` (created on demand) — **this table 
 
 | Feature | Priority | Status | Doc |
 |---------|----------|--------|-----|
-| Plugin packaging skeleton (marketplace.json, plugin.json, install smoke-test; component dirs arrive with residents) | P1 | planned | [feature-plugin-packaging.md](feature-plugin-packaging.md) |
-| House conventions in RULES.md (`## Ending` section, invocation-mode frontmatter, provenance block format, resident README-table row) | P1 | planned | [feature-house-conventions.md](feature-house-conventions.md) |
+| Plugin packaging skeleton (marketplace.json, plugin.json, install smoke-test; component dirs arrive with residents) | P1 | done | [feature-plugin-packaging.md](feature-plugin-packaging.md) |
+| House conventions in RULES.md (`## Ending` section, invocation-mode frontmatter, provenance block format, resident README-table row) | P1 | done | [feature-house-conventions.md](feature-house-conventions.md) |
 | Migrate `/minimalism` (rule text → `rules/`, command → plugin; resolve content-storage sub-question; provenance from ponytail) | P2 | planned | — |
 | Migrate `/orchestrate` bundle (skill + 4 agents; model-pinning portability; user-invoked mode; docs-ending shape) | P2 | planned | — |
 | Triage candidate residents (debug-to-gotcha, pre-flight, handoff; steal-list from senior's + Pocock's repos) | P3 | planned | — |

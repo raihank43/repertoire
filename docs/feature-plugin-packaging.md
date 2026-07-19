@@ -42,6 +42,7 @@ None — this is the foundation the resident migrations (P2s) build on.
 
 **Smoke-test (re-run after every packaging change, ~1 min):**
 
+0. `claude plugin validate <repo root>` and `claude plugin validate <repo>/plugins/repertoire` — official non-interactive manifest validation (discovered at build time; catches schema errors before the interactive steps)
 1. `/plugin marketplace add <absolute path to local clone>` (local path — no push needed)
 2. `/plugin install repertoire@repertoire`
 3. `/plugin` → repertoire listed, correct version + description, no load errors
@@ -50,3 +51,4 @@ None — this is the foundation the resident migrations (P2s) build on.
 ## Changelog
 
 - 2026-07-19: Design forged (naming, no-empty-dirs, smoke-test shape, semver-from-0.1.0, public metadata)
+- 2026-07-19: Built — both manifests written at v0.1.0; `claude plugin validate` passes on marketplace and plugin (in-session install steps 1–3 pending first user session)

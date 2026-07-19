@@ -63,3 +63,4 @@ mods:     <one per line>
 ## Changelog
 
 - 2026-07-19: Design forged (native-field invocation mode, two-bullet Ending, HTML-comment provenance, five-column README table)
+- 2026-07-19: Built — conventions written to RULES.md (Main Principles, Resident Conventions, Glossary terms); README rewritten with install steps + empty five-column resident table

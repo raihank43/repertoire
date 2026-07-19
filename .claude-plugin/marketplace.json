@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "repertoire",
+  "description": "A marketplace for repertoire: a personal library of agent skills, always-on rules, and skill+agent bundles with growing-docs-compliant endings.",
+  "owner": {
+    "name": "Raihan",
+    "email": "raihankusuma5@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "repertoire",
+      "description": "A personal repertoire of agent artifacts — skills, rule installers, and skill+agent bundles (orchestrate, minimalism, and more), each declaring where its output lands in a growing-docs host.",
+      "source": "./plugins/repertoire",
+      "category": "productivity"
+    }
+  ]
+}

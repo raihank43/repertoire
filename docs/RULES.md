@@ -4,7 +4,63 @@ _Entry shape: an entry here is a **generalized rule — imperative + one-line wh
 
 ## Main Principles
 
-{To be filled as the project develops — overarching philosophies for how code should be written. Process disciplines the team works by — TDD, review rituals, debugging practice — belong here too: they're project conventions, not global truths.}
+- **Residents are prompts, not code** (hard constraint): markdown + YAML frontmatter only. Any tooling stays a thin copy step; the plugin system is the installer.
+- **Enforcement layer determines placement:** what the *harness* enforces goes in frontmatter (invocation mode); what the *model* must execute goes in the body (`## Ending`); what neither needs goes inert (provenance comment). Never restate one layer in another — the duplicate drifts.
+- **Two compliance shapes** with growing-docs: most skills *produce a docs ending*; rules like minimalism are instead *recognized by a growing-docs gate* (vocabulary-compatible, no Ending section). Don't bolt an Ending onto a rule — see `docs/feature-house-conventions.md` Gotchas.
+
+## Resident Conventions
+
+_Full design + rejected alternatives: `docs/feature-house-conventions.md`._
+
+### Invocation mode (skills)
+
+Declared by the native frontmatter field alone — no parallel marker:
+
+- **User-invoked** → `disable-model-invocation: true`; invoked as `/repertoire:<name>`.
+- **Model-invoked** → omit the field; `description` phrased as "Use when…" so auto-invocation triggers well.
+
+Doctrine (from mattpocock/skills): a user-invoked skill may invoke model-invoked ones, **never another user-invoked one**.
+
+### `## Ending` section (skills producing durable knowledge)
+
+Required last body section; opens with the detection cue, then exactly two bullets:
+
+```markdown
+## Ending
+Where the output lands. If the host repo is a growing-docs project (has `docs/PLAN.md`):
+- **Docs ending:** <where in the docs tree, which section>
+- **Elsewhere:** <chat-only fallback>
+```
+
+Skills that produce nothing durable, and rule residents, omit the section.
+
+### Provenance block (third-party / derived residents)
+
+Inert HTML comment immediately after the frontmatter of the resident's main file — lineage travels with a copied file without entering the prompt:
+
+```markdown
+<!-- provenance
+upstream: <repo url> (<license>)
+pinned:   <short SHA> | reimplemented, not forked
+mods:     <one per line>
+-->
+```
+
+Original residents skip the block and state `original` in the README table.
+
+### README resident table
+
+Every resident gets a row — five columns:
+
+```markdown
+| Resident | Shape | Invocation | What it does | Provenance |
+```
+
+Shape names the artifact bundle ("skill + 4 agents", "rule + command"). Invocation: the slash command for user-invoked, `model-invoked`, or `—` for non-skills. Provenance: `original` or `derived: <upstream> (<license>)`.
+
+### Versioning
+
+Plugin semver from `0.1.0`: **patch** = fixes/wording, **minor** = new or changed resident, **1.0.0** gated on both P2 migrations landing validated. Bump `plugins/repertoire/.claude-plugin/plugin.json` on every plugin change.
 
 ## Folder Structure Conventions
 
@@ -30,7 +86,11 @@ The project's domain language — terms code, docs, and conversations should use
 
 | Term | Meaning |
 |------|---------|
-| | |
+| **resident** | One artifact hosted by this library (a skill, a rule, or a bundle) — "one folder per resident" |
+| **shape** | A resident's artifact kind: skill / rule / bundle. Shape determines install destination |
+| **bundle** | A skill plus the agent definitions it requires, installed together (e.g. orchestrate + its 4 agents) |
+| **ending** | Where a skill's durable output lands — docs-shaped in a growing-docs host, chat fallback elsewhere |
+| **gate-recognized** | The inverse compliance shape: a rule a growing-docs gate detects and yields to (minimalism), not one that writes docs |
 
 ## Anti-Patterns
 
