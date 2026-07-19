@@ -58,6 +58,8 @@ Every resident gets a row — five columns:
 
 Shape names the artifact bundle ("skill + 4 agents", "rule + command"). Invocation: the slash command for user-invoked, `model-invoked`, or `—` for non-skills. Provenance: `original` or `derived: <upstream> (<license>)`.
 
+**Hyperlink rule (2026-07-19):** the Resident cell links to the resident's main file (SKILL.md / command md); a bundle's Shape cell links each shipped agent file. Every artifact a row mentions is one click from the README.
+
 ### Versioning
 
 Plugin semver from `0.1.0`: **patch** = fixes/wording, **minor** = new or changed resident, **1.0.0** gated on both P2 migrations landing validated. Bump `plugins/repertoire/.claude-plugin/plugin.json` on every plugin change.

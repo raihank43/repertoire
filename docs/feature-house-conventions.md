@@ -56,11 +56,12 @@ pinned:   <short SHA> | reimplemented, not forked
 mods:     <one per line>
 -->
 
-# README table row
-| <resident> | <shape> | </cmd> \| model-invoked \| — | <one-liner> | original \| derived: <upstream> (<license>) |
+# README table row — Resident cell links to the main file; a bundle's Shape cell links each agent file
+| [<resident>](<path to SKILL.md or command md>) | <shape> | </cmd> \| model-invoked \| — | <one-liner> | original \| derived: <upstream> (<license>) |
 ```
 
 ## Changelog
 
 - 2026-07-19: Design forged (native-field invocation mode, two-bullet Ending, HTML-comment provenance, five-column README table)
 - 2026-07-19: Built — conventions written to RULES.md (Main Principles, Resident Conventions, Glossary terms); README rewritten with install steps + empty five-column resident table
+- 2026-07-19: Hyperlink rule added (user request): Resident cell links its main file, bundle Shape cell links each agent file — applied to both existing rows
