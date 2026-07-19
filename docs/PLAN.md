@@ -45,7 +45,13 @@ A personal, public-by-intent library of **agent artifacts** — skills, always-o
 - Notable residents to triage: tdd, diagnosing-bugs (maps to our debug-to-gotcha idea), research, code-review, grill-me/grilling, handoff, writing-great-skills, resolving-merge-conflicts.
 - Claims to work with any Agent-Skills-standard harness; native Codex plugin only on roadmap.
 
-**Pending verification (background research, official docs):** what plugins can ship (skills/agents/commands/hooks — and whether always-on rules are possible via plugin); user-level `~/.claude/rules/` existence; official Codex interop. Findings land here when they arrive.
+**Official Claude Code / Codex docs** (verified 2026-07-19 via research agent; each claim cited):
+- **Plugins can ship** `skills/`, `agents/`, `hooks/`, MCP servers, `commands/` (legacy — docs recommend `skills/` for new work; custom commands have been merged into skills) ([plugins-reference](https://code.claude.com/docs/en/plugins-reference), [skills](https://code.claude.com/docs/en/skills)).
+- **Plugins canNOT ship always-on rules/context**: "A `CLAUDE.md` file at the plugin root is not loaded as project context." No rules/ component exists ([plugins-reference#plugin-directory-structure](https://code.claude.com/docs/en/plugins-reference#plugin-directory-structure)). → A rule resident (minimalism) must be *scaffolded by a command*, not shipped as plugin context — which is exactly the shape `/minimalism` already has.
+- **User-level `~/.claude/rules/` EXISTS** and applies to every project; user rules load before project rules (project wins on conflict) ([memory#user-level-rules](https://code.claude.com/docs/en/memory#user-level-rules)). → Minimalism gains a possible third destination: user-scoped always-on.
+- **Plugin install scopes**: user scope = personal, all projects; marketplace = `.claude-plugin/marketplace.json` in own repo, `/plugin marketplace add owner/repo`, `/plugin install name@marketplace`, update via `/plugin marketplace update`; private repos supported with git credentials ([plugin-marketplaces](https://code.claude.com/docs/en/plugin-marketplaces)).
+- **Loose user-scope dirs all confirmed**: `~/.claude/skills/`, `~/.claude/agents/`, `~/.claude/commands/` ([skills#where-skills-live](https://code.claude.com/docs/en/skills#where-skills-live), [sub-agents](https://code.claude.com/docs/en/sub-agents#choose-the-subagent-scope), [claude-directory](https://code.claude.com/docs/en/claude-directory)).
+- **Codex interop**: both ecosystems follow the open **Agent Skills standard**; official Codex skill locations are `.agents/skills` (repo) and `~/.agents/skills` (user) ([developers.openai.com/codex/build-skills](https://developers.openai.com/codex/build-skills)) — note the senior's installer targets `~/.codex/skills/`, which does not match current official docs. Codex reads `AGENTS.md`, not `CLAUDE.md`; Claude Code docs suggest `@AGENTS.md` import for shared repos ([memory#agentsmd](https://code.claude.com/docs/en/memory#agentsmd)). No official page names cross-tool interop explicitly.
 
 ## Features
 
@@ -63,7 +69,14 @@ Record every significant decision so future-you (or post-compaction-you) knows W
 
 | Decision | Rationale | Date |
 |----------|-----------|------|
-| | | |
+| Name: **repertoire** | A performer's practiced pieces — fits a mixed library of skills/rules/agent bundles; no collision with the senior's `work-skills` | 2026-07-19 |
+| Hard constraints adopted as pitched | Separate repo from growing-docs (one-way dependency); third-party provenance (upstream + pinned SHA + mods); prompts-not-code with thin installer | 2026-07-19 |
+| **Two repos** for work vs personal | repertoire stays public-safe by construction; a private work repo can extend it later. Gitignored `work/` dir rejected as one-bad-`git add`-from-a-leak | 2026-07-19 |
+| **Layout by artifact shape**: `skills/`, `rules/`, with bundle agents living beside their SKILL.md | Shape determines install destination, so the tree is the installer's routing table — keeps the installer thin (constraint #3). Topic categories rejected: topic doesn't determine install target | 2026-07-19 |
+| **User-invoked vs model-invoked** is a first-class per-skill convention (from mattpocock/skills) | Every skill declares its invocation mode; user-invoked may call model-invoked, never each other. Resolves orchestrate migration Q3: publish as user-invoked — same behavior as today's `disable-model-invocation`, but as doctrine not caution | 2026-07-19 |
+| **Install via Claude Code plugin marketplace** (marketplace.json in this repo, one plugin) | Proven model from growing-docs; ships skills+agents+commands together with versioned auto-update at user scope; solves orchestrate's bundle-install problem natively. Verified against official plugins-reference | 2026-07-19 |
+| **Claude-only for now**; Codex deferred to backlog | User doesn't run Codex day-to-day; Agent Skills standard means SKILL.md folders port later via a thin copy step to `~/.agents/skills` | 2026-07-19 |
+| Compliance convention = **`## Ending` section** in SKILL.md body (for skills producing durable knowledge) | The body is what the model executes — frontmatter is inert for behavior. States where output lands in a growing-docs host + chat-only fallback. Minimalism's inverse shape (gate-recognized rule) gets a provenance note instead. Convention documented once in RULES.md | 2026-07-19 |
 
 ## Rejected Ideas
 
@@ -71,4 +84,10 @@ Record ideas we considered and explicitly decided NOT to do. This prevents re-su
 
 | Idea | Why Rejected | Date |
 |------|-------------|------|
-| | | |
+| Names `loadout`, `setlist` | User preferred `repertoire`; setlist implied curation/ordering more than capability-hosting | 2026-07-19 |
+| One private repo for work + personal | Kills publishing/sharing and the growing-docs cross-pointer | 2026-07-19 |
+| Public repo + gitignored `work/` dir | Leak-fragile; work skills would get no version history | 2026-07-19 |
+| Topic-category folders (Pocock-style `engineering/`, `productivity/`) | Topic doesn't determine install destination — routing metadata would still be needed on top | 2026-07-19 |
+| Copy-script installer (senior's model) | No auto-update, script maintenance burden; plugin marketplace covers everything needed for Claude. Revisit only as a thin Codex export if that need materializes | 2026-07-19 |
+| Codex support from day one | Variant maintenance for a harness not in daily use; the senior's `~/.codex/skills/` target doesn't even match current official Codex docs (`~/.agents/skills`) — evidence the target is still shifting | 2026-07-19 |
+| Compliance as frontmatter field (`ending:`) | Frontmatter doesn't drive model behavior; the body section would still be needed, making the field redundant | 2026-07-19 |
