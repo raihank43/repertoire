@@ -14,10 +14,10 @@
 
 _Last checkpoint: none yet_
 
-- **Just shipped:** plugin-packaging skeleton **design forged** (2026-07-19) — naming (`repertoire@repertoire`), no empty component dirs, local-path smoke-test, semver from 0.1.0. Decided design in `docs/feature-plugin-packaging.md`.
-- **In flight:** nothing — skeleton is designed but **not built yet**
-- **Next:** either **build the skeleton** from `feature-plugin-packaging.md` (small: two JSON files + smoke-test), or `/forge` the second P1 (house conventions) first so both designs are settled before building. Migrations' open sub-questions remain pre-captured in `docs/specs/pitch-2026-07-19.md` §Follow-ups.
-- **Start here:** `docs/feature-plugin-packaging.md`, this file's Features table + Decisions log, `docs/ARCHITECTURE.md`
+- **Just shipped:** **both P1 designs forged** (2026-07-19): plugin-packaging skeleton (`repertoire@repertoire`, no empty dirs, local-path smoke-test, semver from 0.1.0) and house conventions (native-field invocation mode, two-bullet `## Ending`, HTML-comment provenance, five-column README table).
+- **In flight:** nothing — both P1s designed, **neither built yet**
+- **Next:** **build both P1s** from their feature docs (small: two JSON manifests + smoke-test; RULES.md sections + README table seed), then the P2 migrations — their open sub-questions are pre-captured in `docs/specs/pitch-2026-07-19.md` §Follow-ups.
+- **Start here:** `docs/feature-plugin-packaging.md`, `docs/feature-house-conventions.md`, this file's Features table + Decisions log
 
 ## Vision
 
@@ -60,7 +60,7 @@ Un-triaged ideas live in `docs/BACKLOG.md` (created on demand) — **this table 
 | Feature | Priority | Status | Doc |
 |---------|----------|--------|-----|
 | Plugin packaging skeleton (marketplace.json, plugin.json, install smoke-test; component dirs arrive with residents) | P1 | planned | [feature-plugin-packaging.md](feature-plugin-packaging.md) |
-| House conventions in RULES.md (`## Ending` section, invocation-mode frontmatter, provenance block format, resident README-table row) | P1 | planned | — |
+| House conventions in RULES.md (`## Ending` section, invocation-mode frontmatter, provenance block format, resident README-table row) | P1 | planned | [feature-house-conventions.md](feature-house-conventions.md) |
 | Migrate `/minimalism` (rule text → `rules/`, command → plugin; resolve content-storage sub-question; provenance from ponytail) | P2 | planned | — |
 | Migrate `/orchestrate` bundle (skill + 4 agents; model-pinning portability; user-invoked mode; docs-ending shape) | P2 | planned | — |
 | Triage candidate residents (debug-to-gotcha, pre-flight, handoff; steal-list from senior's + Pocock's repos) | P3 | planned | — |
@@ -83,6 +83,8 @@ Record every significant decision so future-you (or post-compaction-you) knows W
 | **Claude-only for now**; Codex deferred to backlog | User doesn't run Codex day-to-day; Agent Skills standard means SKILL.md folders port later via a thin copy step to `~/.agents/skills` | 2026-07-19 |
 | Compliance convention = **`## Ending` section** in SKILL.md body (for skills producing durable knowledge) | The body is what the model executes — frontmatter is inert for behavior. States where output lands in a growing-docs host + chat-only fallback. Minimalism's inverse shape (gate-recognized rule) gets a provenance note instead. Convention documented once in RULES.md | 2026-07-19 |
 | Plugin **semver from 0.1.0**; 1.0.0 gated on both P2 migrations landing validated | Empty-shell skeleton shouldn't claim v1; patch = fix, minor = resident change (forge: plugin-packaging) | 2026-07-19 |
+| Invocation mode declared by the **native `disable-model-invocation` field alone** | The mechanism is the declaration — a parallel custom marker would be inert and drift-prone (forge: house-conventions) | 2026-07-19 |
+| Provenance = **inert HTML comment in the resident file** + README short form | Lineage travels with a copied file without spending prompt tokens; rendered body section rejected (forge: house-conventions) | 2026-07-19 |
 
 ## Rejected Ideas
 
