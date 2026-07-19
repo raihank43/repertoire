@@ -1,7 +1,7 @@
 {
   "name": "repertoire",
   "description": "A personal repertoire of agent artifacts — skills, rule installers, and skill+agent bundles (orchestrate, minimalism, and more), each declaring where its output lands in a growing-docs host.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": {
     "name": "Raihan",
     "email": "raihankusuma5@gmail.com"

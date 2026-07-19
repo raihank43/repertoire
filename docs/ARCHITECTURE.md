@@ -21,8 +21,7 @@ repertoire/
 │   ├── skills/
 │   │   └── {skill-name}/SKILL.md   # one folder per skill; bundle agents live beside their SKILL.md (see note)
 │   ├── agents/                     # agent defs shipped by bundles (orchestrate's four)
-│   └── commands/                   # scaffolding commands (minimalism installer)
-├── rules/                          # canonical rule text (source of truth commands scaffold FROM)
+│   └── commands/                   # rule residents: command + embedded ruleset block, one file (minimalism)
 ├── docs/                           # this repo's own growing-docs tree
 └── README.md                       # resident index table with one-liners + provenance
 ```
@@ -34,7 +33,7 @@ repertoire/
 repertoire is a **library of agent artifacts** in three shapes:
 
 1. **Skills** — SKILL.md folders, each declaring `user-invoked` or `model-invoked` (user-invoked may call model-invoked, never each other). Skills producing durable knowledge end with an `## Ending` section (growing-docs docs-shaped ending + chat fallback).
-2. **Rules** — always-on rulesets (minimalism). Plugins cannot ship always-on context, so each rule resident = canonical rule text in `rules/` + a scaffolding command in the plugin that installs/updates it into a target repo (`.claude/rules/`) or user scope (`~/.claude/rules/`).
+2. **Rules** — always-on rulesets (minimalism). Plugins cannot ship always-on context, so each rule resident = a scaffolding command in the plugin, with the canonical rule text **embedded in the command body** (decided in the minimalism forge — no separate `rules/` dir; the block inside the command is the source of truth). The command installs/updates it into a target repo (`.claude/rules/`) or user scope (`~/.claude/rules/`).
 3. **Bundles** — a skill plus the agent definitions it requires (orchestrate + task-runner/task-reviewer/explorer/advisor), installed together via the plugin.
 
 **Scope boundary with growing-docs (the routing rule):** commands whose input AND output are docs artifacts belong in the growing-docs plugin; generic engineering disciplines with an *optional* docs ending belong here. Dependency points one way: repertoire may assume growing-docs conventions; growing-docs never references repertoire.

@@ -23,7 +23,7 @@ Restart Claude Code after install — skills are discovered at startup.
 
 | Resident | Shape | Invocation | What it does | Provenance |
 |----------|-------|------------|--------------|------------|
-| _(first residents arrive with v0.2.0 — orchestrate and minimalism are next in line)_ | | | | |
+| minimalism | rule + command | `/repertoire:minimalism` | Scaffolds an always-on token-efficiency ruleset (lazy-senior ladder, comment policy, design-bar guard) into a repo or user scope; re-run to update in place | derived: [ponytail](https://github.com/DietrichGebert/ponytail) (MIT), reimplemented |
 
 ## Tech Stack
 

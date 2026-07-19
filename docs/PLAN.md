@@ -61,7 +61,7 @@ Un-triaged ideas live in `docs/BACKLOG.md` (created on demand) — **this table 
 |---------|----------|--------|-----|
 | Plugin packaging skeleton (marketplace.json, plugin.json, install smoke-test; component dirs arrive with residents) | P1 | done | [feature-plugin-packaging.md](feature-plugin-packaging.md) |
 | House conventions in RULES.md (`## Ending` section, invocation-mode frontmatter, provenance block format, resident README-table row) | P1 | done | [feature-house-conventions.md](feature-house-conventions.md) |
-| Migrate `/minimalism` (rule text → `rules/`, command → plugin; resolve content-storage sub-question; provenance from ponytail) | P2 | planned | — |
+| Migrate `/minimalism` (command + embedded ruleset → plugin; user-scope destination added; provenance from ponytail) | P2 | done | [feature-minimalism.md](feature-minimalism.md) |
 | Migrate `/orchestrate` bundle (skill + 4 agents; model-pinning portability; user-invoked mode; docs-ending shape) | P2 | planned | — |
 | Triage candidate residents (debug-to-gotcha, pre-flight, handoff; steal-list from senior's + Pocock's repos) | P3 | planned | — |
 | Codex export path (thin copy to `~/.agents/skills`) | P4 | planned | — |
@@ -85,6 +85,7 @@ Record every significant decision so future-you (or post-compaction-you) knows W
 | Plugin **semver from 0.1.0**; 1.0.0 gated on both P2 migrations landing validated | Empty-shell skeleton shouldn't claim v1; patch = fix, minor = resident change (forge: plugin-packaging) | 2026-07-19 |
 | Invocation mode declared by the **native `disable-model-invocation` field alone** | The mechanism is the declaration — a parallel custom marker would be inert and drift-prone (forge: house-conventions) | 2026-07-19 |
 | Provenance = **inert HTML comment in the resident file** + README short form | Lineage travels with a copied file without spending prompt tokens; rendered body section rejected (forge: house-conventions) | 2026-07-19 |
+| Rule residents = **command with embedded ruleset block**, no top-level `rules/` dir | Proven v3 single-file shape; a standalone file the command Reads adds a `${CLAUDE_PLUGIN_ROOT}` runtime dependency for zero behavioral gain (forge: minimalism) | 2026-07-19 |
 
 ## Rejected Ideas
 
