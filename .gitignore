@@ -1,0 +1,19 @@
+# Secrets — never commit, regardless of stack
+.env
+.env.*
+*.pem
+*.key
+credentials*
+secrets*
+
+# Local-only Claude Code state
+CLAUDE.local.md
+.claude/settings.local.json
+
+# Throwaway prototypes (forge scratch)
+scratch/
+
+# OS noise
+Thumbs.db
+Desktop.ini
+.DS_Store
