@@ -14,10 +14,11 @@
 
 _Last checkpoint: 0174b31 (2026-07-19)_
 
-- **Just shipped:** **v1.0.0** — the forged gate (both P2 migrations validated) was met at v0.3.0 and is now claimed; post-1.0 major defined as a breaking change to how residents install or invoke. _(Local install still has the 0.3.0 cache — `/plugin marketplace update repertoire` + restart to pull.)_
-- **In flight:** **`spiker` agent — design forged 2026-07-27, NOT built.** 5th member of the orchestrate bundle: an unknown-investigation tier (empirical unknowns *and* root-cause debugging) with a second brief shape (`QUESTION / CONTEXT / EXIT CONDITION / BUDGET`, verdicts GREEN/RED/INCONCLUSIVE), sonnet-default, scratch-scoped in the main tree. Full decided design + 3-phase build plan: `docs/feature-orchestrate.md` → Revision 2026-07-27.
-- **Next:** **build the spiker, Phase A → B → C** (agent def → SKILL.md §1/§2/Ending amendments → v1.1.0 packaging + README + RULES). Then the **`librarian`** agent (P3 row, forge pending — session-scoped docs singleton; open questions are staleness protocol after doc writes, the judgment boundary, and incremental-delivery format). Standing policy otherwise: no build queue by design — residents arrive when a gap bites (one line into `docs/BACKLOG.md` → `/forge` on recurrence).
-- **Start here:** `docs/feature-orchestrate.md` (Revision 2026-07-27 + Build phasing), `plugins/repertoire/skills/orchestrate/SKILL.md` §1–§2, `docs/RULES.md` §Resident Conventions
+- **Just shipped:** **v1.1.0** — `spiker` + `librarian` forged, built, and tandem-validated in one session (v1.0.0 was claimed earlier the same day). Orchestrate is now a 6-agent bundle. Two bonus resolutions fell out: §1 now splits ambiguity-of-intent from uncertainty-of-fact, and the Ending convention's parked no-feature-doc middle case is closed (→ dated BACKLOG entry). RULES gained a frontmatter-YAML rule after a colon-space silently dropped a whole frontmatter block. _(Local install still has the 0.3.0 cache — `/plugin marketplace update repertoire` + restart to pull.)_
+- **In flight:** nothing — clean stopping point. All three P2 expansion rows are `done`.
+- **Next:** no build queue by design — residents arrive when a gap bites (one line into `docs/BACKLOG.md` → `/forge` on recurrence). Nearest concrete candidate: the **semantic-validation follow-up spike** (BACKLOG 2026-07-27) — does `claude plugin validate` check that `model:`/`tools:` values are *real*, or only that the YAML parses? That's the dangerous blind spot. Queue tail: 2 planned Features rows (P3 intake, P4 Codex export) + ~14 BACKLOG ideas.
+- **Watch (designed but unobserved):** reviewer FAIL→fix-round path, spiker INCONCLUSIVE + worktree-isolation paths, librarian respawn after a real compaction. Also unverified until a restart: that both new agents load as `repertoire:*` types from the installed plugin.
+- **Start here:** `docs/feature-orchestrate.md` (both 2026-07-27 revisions + Spike findings), `plugins/repertoire/skills/orchestrate/SKILL.md` §1/§2/§6, `docs/RULES.md` §Resident Conventions
 
 ## Vision
 
@@ -63,8 +64,8 @@ Un-triaged ideas live in `docs/BACKLOG.md` (created on demand) — **this table 
 | House conventions in RULES.md (`## Ending` section, invocation-mode frontmatter, provenance block format, resident README-table row) | P1 | done | [feature-house-conventions.md](feature-house-conventions.md) |
 | Migrate `/minimalism` (command + embedded ruleset → plugin; user-scope destination added; provenance from ponytail) | P2 | done | [feature-minimalism.md](feature-minimalism.md) |
 | Migrate `/orchestrate` bundle (skill + 4 agents; model-pinning portability; user-invoked mode; docs-ending shape) | P2 | done | [feature-orchestrate.md](feature-orchestrate.md) |
-| Orchestrate expansion — `spiker` agent (5th agent; unknown-investigation tier + second brief shape) | P2 | in-progress | [feature-orchestrate.md](feature-orchestrate.md) |
-| Orchestrate expansion — `librarian` agent (session-scoped docs singleton; first resident that *consumes* the docs contract) | P2 | in-progress | [feature-orchestrate.md](feature-orchestrate.md) |
+| Orchestrate expansion — `spiker` agent (5th agent; unknown-investigation tier + second brief shape) | P2 | done | [feature-orchestrate.md](feature-orchestrate.md) |
+| Orchestrate expansion — `librarian` agent (session-scoped docs singleton; first resident that *consumes* the docs contract) | P2 | done | [feature-orchestrate.md](feature-orchestrate.md) |
 | Demand-driven resident intake (capture gaps in BACKLOG while working; `/forge` on recurrence — build or borrow decided then; borrow-list tip: tdd, code-review from mattpocock/skills) | P3 | planned | — |
 | Codex export path (thin copy to `~/.agents/skills`) | P4 | planned | — |
 

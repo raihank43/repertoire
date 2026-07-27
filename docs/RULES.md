@@ -62,17 +62,21 @@ Every resident gets a row — five columns:
 | Resident | Shape | Invocation | What it does | Provenance |
 ```
 
-Shape names the artifact bundle ("skill + 4 agents", "rule + command"). Invocation: the slash command for user-invoked, `model-invoked`, or `—` for non-skills. Provenance: `original` or `derived: <upstream> (<license>)`.
+Shape names the artifact bundle ("skill + 6 agents", "rule + command"). Invocation: the slash command for user-invoked, `model-invoked`, or `—` for non-skills. Provenance: `original` or `derived: <upstream> (<license>)`.
 
 **Hyperlink rule (2026-07-19):** the Resident cell links to the resident's main file (SKILL.md / command md); a bundle's Shape cell links each shipped agent file. Every artifact a row mentions is one click from the README.
 
 ### Versioning
 
-Plugin semver from `0.1.0`: **patch** = fixes/wording, **minor** = new or changed resident, **1.0.0** gated on both P2 migrations landing validated. Bump `plugins/repertoire/.claude-plugin/plugin.json` on every plugin change.
+Plugin semver, post-1.0: **patch** = fixes/wording, **minor** = new or changed resident, **major** = a breaking change to how residents install or invoke. Bump `plugins/repertoire/.claude-plugin/plugin.json` on every plugin change.
 
 ## Folder Structure Conventions
 
-{To be filled — the *convention* for where new files go and why. (The actual current tree lives in ARCHITECTURE.md.)}
+_The actual current tree lives in ARCHITECTURE.md — this section is the *why*, not a copy of it._
+
+- **Split the top level by artifact shape, not topic.** Shape determines install destination, which keeps the installer thin; topic categories were rejected because topic doesn't determine install target. Full story: `docs/PLAN.md` Decisions log.
+- **Create component dirs (`skills/`, `agents/`, `commands/`, `rules/`) only when the first resident needs them — never commit them empty.** Git can't track empty dirs and Claude Code doesn't require them to exist. Full story: `docs/feature-plugin-packaging.md`.
+- **Express a bundle as its SKILL.md in `skills/` plus its agent defs in `agents/`, cross-referenced in both directions.** Within the plugin, Claude Code itself dictates the `skills/` vs `agents/` vs `commands/` split. Full story: `docs/ARCHITECTURE.md`.
 
 ## Naming Conventions
 
@@ -96,7 +100,7 @@ The project's domain language — terms code, docs, and conversations should use
 |------|---------|
 | **resident** | One artifact hosted by this library (a skill, a rule, or a bundle) — "one folder per resident" |
 | **shape** | A resident's artifact kind: skill / rule / bundle. Shape determines install destination |
-| **bundle** | A skill plus the agent definitions it requires, installed together (e.g. orchestrate + its 4 agents) |
+| **bundle** | A skill plus the agent definitions it requires, installed together (e.g. orchestrate + its 6 agents) |
 | **ending** | Where a skill's durable output lands — docs-shaped in a growing-docs host, chat fallback elsewhere |
 | **gate-recognized** | The inverse compliance shape: a rule a growing-docs gate detects and yields to (minimalism), not one that writes docs |
 

@@ -1,6 +1,6 @@
 # Architecture
 
-_Last updated: 2026-07-19 — recency signal, not a correctness guarantee. The folder tree and data flow below rot fastest; if they disagree with the repo, trust the repo. They're **derivable caches** — when stale, regenerate them from the repo rather than hand-maintaining them line by line._
+_Last updated: 2026-07-27 — recency signal, not a correctness guarantee. The folder tree and data flow below rot fastest; if they disagree with the repo, trust the repo. They're **derivable caches** — when stale, regenerate them from the repo rather than hand-maintaining them line by line._
 
 ## Tech Stack
 
@@ -20,7 +20,7 @@ repertoire/
 │   ├── .claude-plugin/plugin.json  # version — bump on every plugin change
 │   ├── skills/
 │   │   └── {skill-name}/SKILL.md   # one folder per skill; bundle agents live beside their SKILL.md (see note)
-│   ├── agents/                     # agent defs shipped by bundles (orchestrate's four)
+│   ├── agents/                     # agent defs shipped by bundles (orchestrate's six: task-runner, task-reviewer, explorer, advisor, spiker, librarian)
 │   └── commands/                   # rule residents: command + embedded ruleset block, one file (minimalism)
 ├── docs/                           # this repo's own growing-docs tree
 └── README.md                       # resident index table with one-liners + provenance
@@ -34,7 +34,7 @@ repertoire is a **library of agent artifacts** in three shapes:
 
 1. **Skills** — SKILL.md folders, each declaring `user-invoked` or `model-invoked` (user-invoked may call model-invoked, never each other). Skills producing durable knowledge end with an `## Ending` section (growing-docs docs-shaped ending + chat fallback).
 2. **Rules** — always-on rulesets (minimalism). Plugins cannot ship always-on context, so each rule resident = a scaffolding command in the plugin, with the canonical rule text **embedded in the command body** (decided in the minimalism forge — no separate `rules/` dir; the block inside the command is the source of truth). The command installs/updates it into a target repo (`.claude/rules/`) or user scope (`~/.claude/rules/`).
-3. **Bundles** — a skill plus the agent definitions it requires (orchestrate + task-runner/task-reviewer/explorer/advisor), installed together via the plugin.
+3. **Bundles** — a skill plus the agent definitions it requires (orchestrate + task-runner/task-reviewer/explorer/advisor/spiker/librarian), installed together via the plugin.
 
 **Scope boundary with growing-docs (the routing rule):** commands whose input AND output are docs artifacts belong in the growing-docs plugin; generic engineering disciplines with an *optional* docs ending belong here. Dependency points one way: repertoire may assume growing-docs conventions; growing-docs never references repertoire.
 

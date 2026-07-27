@@ -10,6 +10,10 @@ All workflow-shaped; deferred (not rejected) because they overlap growing-docs i
 - **pre-flight** — pre-task briefing/check discipline; adapt from asrafilll/work-skills (third-party, needs provenance).
 - **handoff** — session handoff helper; if it ever graduates, the routing rule sends it to growing-docs (docs-in/docs-out ≈ /checkpoint), not here — recorded so it isn't re-proposed for this repo.
 
+## 2026-07-27 — from the first tandem run
+
+- **Semantic validation spike (follow-up).** Does `claude plugin validate` check that `model:` and `tools:` values are *real* (a bogus model name, a non-existent tool), or only that the YAML parses? The 2026-07-27 spike proved syntax is caught but left this open — and it's the more dangerous case, since a silently-dropped or invalid `tools:` line is how a read-only agent gains write access. One follow-up spike answers it.
+
 ## Borrow-list (engineering-practice, pull when a gap bites)
 
 From mattpocock/skills (MIT) and asrafilll/work-skills. **Bodies read 2026-07-19** — assessments below are grounded, not name-guesses. Ordered roughly by borrow-readiness:
