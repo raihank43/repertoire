@@ -42,6 +42,10 @@ Use parentheses or an em dash instead of a colon in `description` (or quote the 
 
 **Proofread `model:` and `tools:` by eye — the validator does not.** Two spikes (2026-07-27) bound what `claude plugin validate` buys you: YAML *syntax* is caught, field *semantics* are not — a bogus model alias or a misspelled tool name passes clean, `--strict` included. Read-only agents are read-only by their `tools:` allowlist alone, so a typo there is a silent privilege change no tool will flag. Checking by eye rather than by script is deliberate: a linter would breach the prompts-not-code constraint. Story: `docs/feature-orchestrate.md` Spike findings.
 
+### Composition changes — grep the old count before committing
+
+**When a resident's composition changes — an agent added to or removed from a bundle — search the docs for the previous count and every enumeration of its parts, in the same change.** The count is restated in more places than memory reaches: ARCHITECTURE's tree comment and Bundles list, RULES' README-table example and Glossary, the feature doc's title and Description, the README row. Story: `docs/feature-orchestrate.md` Gotchas (v1.1.0 shipped seven such lines stale). Historical statements — changelog entries, dated forge records, checkpoint reports — describe a past state and must **not** be updated.
+
 ### Provenance block (third-party / derived residents)
 
 Inert HTML comment immediately after the frontmatter of the resident's main file — lineage travels with a copied file without entering the prompt:
@@ -105,6 +109,8 @@ The project's domain language — terms code, docs, and conversations should use
 | **bundle** | A skill plus the agent definitions it requires, installed together (e.g. orchestrate + its 6 agents) |
 | **ending** | Where a skill's durable output lands — docs-shaped in a growing-docs host, chat fallback elsewhere |
 | **gate-recognized** | The inverse compliance shape: a rule a growing-docs gate detects and yields to (minimalism), not one that writes docs |
+| **spike** | Any time-boxed empirical investigation — forward (will this work?) *or* backward (why is this failing?). Deliberately wider than the XP sense; verdicts are GREEN / RED / **INCONCLUSIVE**, and INCONCLUSIVE never collapses into RED |
+| **session-scoped singleton** | An agent spawned once per session and reused via `SendMessage` (librarian), as opposed to stateless fan-out (explorer). Statefulness and parallelism are incompatible — a second spawn silently destroys the value |
 
 ## Anti-Patterns
 
