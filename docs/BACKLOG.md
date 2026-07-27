@@ -12,7 +12,7 @@ All workflow-shaped; deferred (not rejected) because they overlap growing-docs i
 
 ## 2026-07-27 — from the first tandem run
 
-- **Semantic validation spike (follow-up).** Does `claude plugin validate` check that `model:` and `tools:` values are *real* (a bogus model name, a non-existent tool), or only that the YAML parses? The 2026-07-27 spike proved syntax is caught but left this open — and it's the more dangerous case, since a silently-dropped or invalid `tools:` line is how a read-only agent gains write access. One follow-up spike answers it.
+- ~~**Semantic validation spike (follow-up).**~~ **Answered 2026-07-27 — RED**, the validator checks syntax only. Mitigation is a RULES proofread rule (a linter would breach prompts-not-code). Remaining open question, worth one spike if it ever bites: **at runtime**, does an invalid `tools:` entry get dropped individually (harmless) or discard the whole allowlist (a read-only agent silently gaining write access)? Needs a live agent invocation, not a validator run.
 
 ## Borrow-list (engineering-practice, pull when a gap bites)
 

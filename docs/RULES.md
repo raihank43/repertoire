@@ -40,6 +40,8 @@ Skills that produce nothing durable, and rule residents, omit the section.
 
 Use parentheses or an em dash instead of a colon in `description` (or quote the whole scalar). A colon-space makes YAML read the value as a nested mapping and **the entire frontmatter block is silently dropped at runtime** — including `disable-model-invocation`, which would turn a user-invoked skill model-invocable without any visible error. `claude plugin validate` catches it; run it after touching any frontmatter. Story: `docs/feature-orchestrate.md` Gotchas.
 
+**Proofread `model:` and `tools:` by eye — the validator does not.** Two spikes (2026-07-27) bound what `claude plugin validate` buys you: YAML *syntax* is caught, field *semantics* are not — a bogus model alias or a misspelled tool name passes clean, `--strict` included. Read-only agents are read-only by their `tools:` allowlist alone, so a typo there is a silent privilege change no tool will flag. Checking by eye rather than by script is deliberate: a linter would breach the prompts-not-code constraint. Story: `docs/feature-orchestrate.md` Spike findings.
+
 ### Provenance block (third-party / derived residents)
 
 Inert HTML comment immediately after the frontmatter of the resident's main file — lineage travels with a copied file without entering the prompt:
