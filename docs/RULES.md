@@ -34,6 +34,8 @@ Where the output lands. If the host repo is a growing-docs project (has `docs/PL
 
 Skills that produce nothing durable, and rule residents, omit the section.
 
+**No-feature-doc fallback (2026-07-27):** when the host *is* a growing-docs project but no feature doc covers what was produced, the docs bullet falls back to a dated entry in `docs/BACKLOG.md` — homeless output is un-triaged knowledge, which is that file's purpose. Keep the chain **inside** the docs-ending bullet; the two-bullet rule held at its first flex test. Full story: `docs/feature-orchestrate.md` Gotchas.
+
 ### Provenance block (third-party / derived residents)
 
 Inert HTML comment immediately after the frontmatter of the resident's main file — lineage travels with a copied file without entering the prompt:

@@ -6,7 +6,7 @@ Un-triaged idea dumps in dated batches. **The PLAN Features table is canonical**
 
 All workflow-shaped; deferred (not rejected) because they overlap growing-docs in adopted repos — value activates mainly in un-adopted ones. Full context: PLAN Decisions log, 2026-07-19 reframe entry.
 
-- **debug-to-gotcha** — original skill; debugging session ends by writing root cause + failed hypotheses to the feature doc's Gotchas. Was the advisor's build-first pick (canonical `## Ending` exemplar). If it graduates: check growing-docs' parked backlog entry wording first (docs-in/docs-out flips ownership), and resolve the Ending convention's "growing-docs host but feature doc absent" middle case in its forge.
+- **debug-to-gotcha** — ~~original skill; debugging session ends by writing root cause + failed hypotheses to the feature doc's Gotchas.~~ **Superseded in half, 2026-07-27.** The *investigation* half is absorbed by the forged `spiker` agent (contract-identical to a spike: question → exit condition → finding); the orchestrator still owns the doc write via `## Ending`, so the *doc-writing ritual* — the actual reason this was shelved — stays shelved. Its two open questions are settled: the Ending middle case was resolved in the spiker forge (→ BACKLOG fallback, now in RULES §Ending), and growing-docs ownership is moot for the investigation half. **Only revive** if the ritual half proves independently valuable in an un-adopted repo.
 - **pre-flight** — pre-task briefing/check discipline; adapt from asrafilll/work-skills (third-party, needs provenance).
 - **handoff** — session handoff helper; if it ever graduates, the routing rule sends it to growing-docs (docs-in/docs-out ≈ /checkpoint), not here — recorded so it isn't re-proposed for this repo.
 
