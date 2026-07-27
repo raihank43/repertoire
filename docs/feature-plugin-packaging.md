@@ -1,6 +1,6 @@
 # Plugin Packaging Skeleton
 
-_Last updated: 2026-07-19 — recency signal, not a correctness guarantee. If the code has moved past this, trust the code. Files / Dependencies / API below are **derivable caches** — when stale, regenerate them from the code; hand-maintain only the sections above them (the code can't re-derive those)._
+_Last updated: 2026-07-27 — recency signal, not a correctness guarantee. If the code has moved past this, trust the code. Files / Dependencies / API below are **derivable caches** — when stale, regenerate them from the code; hand-maintain only the sections above them (the code can't re-derive those)._
 
 ## Description
 
@@ -52,3 +52,4 @@ None — this is the foundation the resident migrations (P2s) build on.
 
 - 2026-07-19: Design forged (naming, no-empty-dirs, smoke-test shape, semver-from-0.1.0, public metadata)
 - 2026-07-19: Built — both manifests written at v0.1.0; `claude plugin validate` passes on marketplace and plugin (in-session install steps 1–3 pending first user session)
+- 2026-07-27: **Promoted to v1.0.0** — the forged gate (both P2 migrations landed validated) was met at v0.3.0 on 2026-07-19; this bump claims it. `claude plugin validate` green on both manifests. Post-1.0 semver continues as forged: patch = fixes/wording, minor = new or changed resident, major = a breaking change to how residents install or invoke.
