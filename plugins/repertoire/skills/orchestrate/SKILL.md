@@ -1,6 +1,6 @@
 ---
 name: orchestrate
-description: Delegation protocol — the main agent keeps planning, analysis, and user discussion for itself, and farms mechanical work (repo browsing, code writing, repetitive edits) out to cheaper worker agents, with an Opus reviewer gating substantive changes. Invoke when a task decomposes into well-specified mechanical subtasks.
+description: Delegation protocol — the main agent keeps planning, judgment, and user discussion for itself, and farms out the rest to cheaper workers (repo browsing, code writing, repetitive edits, empirical investigation, documentation lookup), with an Opus reviewer gating substantive changes. Invoke when a task decomposes into well-specified subtasks, or when progress is blocked on something reality can answer.
 disable-model-invocation: true
 ---
 
@@ -10,15 +10,19 @@ You (the main agent) are the orchestrator. You own: decomposition, briefs, routi
 
 ## 1. Triage — should this be delegated at all?
 
-Handle it YOURSELF when the task is: ambiguous, a design decision, a discussion with the user, security-sensitive, or so small that writing the brief costs more than doing it (< ~5 min of mechanical work). Delegation has overhead; don't pay it for trivia.
+Handle it YOURSELF when the task is: a design decision, a discussion with the user, security-sensitive, or so small that writing the brief costs more than doing it (< ~5 min of mechanical work). Delegation has overhead; don't pay it for trivia.
+
+**Ambiguity and uncertainty are not the same thing, and they route oppositely.** Ambiguous about what the *user wants* → handle it yourself; that's a conversation, not an investigation, and no agent can resolve it. Uncertain about what's *true* → delegate it; reality can answer that, and it answers cheaper to a worker than to you.
 
 Route by tier:
 - **Retrieval** (find where X lives, survey conventions, extract what a module does) → `explorer` (haiku, read-only, cheap). Fire liberally; no reviewer — you judge the findings yourself. For questions spanning multiple areas, fan out several explorers in parallel, one narrow scope each, and synthesize their reports yourself. Give each an explicit scope boundary so they don't duplicate work.
+- **Documentation** (what governs this area? what conventions apply before I touch it?) → `librarian` — one per session, reused, never re-spawned (section 6).
+- **Unknowns** (will this approach work? how does this API actually behave? why is this failing?) → `spiker`. The deliverable is a finding, not a change. No reviewer — you judge the finding, and a contested high-stakes one goes to `advisor`.
 - **Trivial mechanical edits** (rename, config bump, boilerplate from an exact template) → `task-runner` only. You spot-check the report; no reviewer.
-- **Substantive code changes** (new logic, refactors, anything with failure modes) → `task-runner` + `task-reviewer` gate (section 3).
-- **Judgment calls** (architecture choices, plan review, genuine uncertainty between designs) → handle yourself; optionally consult `advisor` (section 5). Never delegate the decision itself.
+- **Substantive code changes** (new logic, refactors, anything with failure modes) — including **writing or running test suites**, which have deterministic acceptance criteria and fit the standard brief exactly → `task-runner` + `task-reviewer` gate (section 3).
+- **Judgment calls** (architecture choices, plan review, deciding between designs once the facts are in) → handle yourself; optionally consult `advisor` (section 5). Never delegate the decision itself.
 
-Runners may spawn `explorer` agents themselves for mid-task retrieval ("find every caller of X before changing its signature") — that is the only permitted two-level hop. Retrieval briefs are hard to garble; anything more degrades through relay.
+Runners may spawn `explorer` agents themselves for mid-task retrieval ("find every caller of X before changing its signature") — that is the only permitted two-level hop. Retrieval briefs are hard to garble; anything more degrades through relay. A runner that hits an unknown mid-task should stop and report it, not investigate: you decide whether it warrants a spike.
 
 ## 2. The brief — the whole system lives or dies here
 
@@ -27,7 +31,16 @@ Workers start cold: no conversation history, no idea what the user wants. Every 
 - **GOAL**: one paragraph, outcome not procedure.
 - **FILES**: exact paths to touch, and exact paths to read first for conventions.
 - **CONSTRAINTS**: style rules, what NOT to change, project-specific gotchas from CLAUDE.md that apply.
-- **ACCEPTANCE CRITERIA**: testable, enumerable. Include the exact command to run (test/build/lint) when one exists. If you cannot write a testable criterion, the task is not ready to delegate — do it yourself.
+- **ACCEPTANCE CRITERIA**: testable, enumerable. Include the exact command to run (test/build/lint) when one exists. If you cannot write a testable criterion, either the task is not ready to delegate — or it isn't a task at all, but a question (see the spike brief below).
+
+**The spike brief — a different contract.** A spike has no acceptance criteria by definition: you don't know the answer yet. Don't force it into the shape above. Brief a `spiker` with:
+
+- **QUESTION**: the single thing to find out, phrased so evidence can settle it.
+- **CONTEXT**: what's already known, what's been tried, why it matters.
+- **EXIT CONDITION**: what "answered" means here — the semantic stop.
+- **BUDGET**: a tool-call ceiling (~30 is a reasonable default). The hard stop.
+
+It returns **GREEN** (confirmed), **RED** (refuted), or **INCONCLUSIVE** (budget spent, or couldn't reproduce). Treat INCONCLUSIVE as genuinely different from RED — deciding against an approach on a budget-exhausted spike is deciding on no evidence. Spikers write probes to a gitignored scratch dir and clean up after themselves; add `isolation: "worktree"` when the probe is destructive (migrations, dependency upgrades) — but know that a fresh worktree lacks gitignored dependencies and environment, so it often can't run the project.
 
 ## 3. The review gate (substantive changes only)
 
@@ -68,9 +81,18 @@ Send a DECISION BRIEF: MODE line, the question, options considered, your current
 2. To reject advice in PEER mode you must rebut its load-bearing arguments specifically. "Considered and disagreed" does not clear the bar; if you cannot articulate why it is wrong, it probably isn't.
 3. Never quietly drop an advisor consult the user asked for, and never present the advisor's position as weaker than it was written.
 
+## 6. Session-scoped agents — the librarian
+
+Every other agent here is a cold spawn you use once. The `librarian` is the exception: **one per session, spawned once and messaged thereafter.** Its value is entirely in what it remembers having already given you — a fresh one has nothing to be incremental about. If you find yourself writing a second `Agent` call for a librarian, that is the bug.
+
+- **Opening it:** if the repo has `docs/PLAN.md`, spawn the librarian at the start of the session with a broad "brief me on this repo" query — a growing-docs project will have you touching docs before you're done. Otherwise spawn it the first time you actually need documentation context.
+- **Using it:** `SendMessage` the same agent whenever you're about to touch a new area — "what governs the auth flow?" It returns **NEW** material in full, **ALREADY SENT** items as one-line pointers, and **NOT FOUND** gaps. If your context was compacted and you've lost something it listed under ALREADY SENT, just ask it to re-send.
+- **What it will not do:** rank docs, propose a reading order, or tell you what matters. That's your judgment, and it can't see this conversation. It tells you what exists and what governs; you decide what to read.
+- It re-reads before citing, every time, so its answers survive your own doc edits — you don't need to notify it when you write to a doc.
+
 ## Ending
 
 Where the output lands. If the host repo is a growing-docs project (has `docs/PLAN.md`):
 
-- **Docs ending:** a reviewer-caught defect goes to the touched feature doc's Gotchas; an advisor recommendation that decided something goes to PLAN's Decisions log, including its WOULD-CHANGE-MY-MIND condition as the revisit trigger. Routine PASS rounds and briefs stay in chat — log the verdict-worthy, not the churn.
+- **Docs ending:** a reviewer-caught defect → the touched feature doc's Gotchas; a spike finding → that doc's `## Spike findings`, dated, as `GREEN/RED`; a root cause the spiker identified → its Gotchas, together with the hypotheses ruled out along the way; an advisor recommendation that decided something → PLAN's Decisions log, including its WOULD-CHANGE-MY-MIND condition as the revisit trigger. **If no feature doc covers the area, write a dated entry in `docs/BACKLOG.md` instead** — don't manufacture a feature doc for something that may never be built. Routine PASS rounds and briefs stay in chat — log the verdict-worthy, not the churn.
 - **Elsewhere:** section 4's plain-prose batch report to the user is the whole record.

@@ -36,6 +36,10 @@ Skills that produce nothing durable, and rule residents, omit the section.
 
 **No-feature-doc fallback (2026-07-27):** when the host *is* a growing-docs project but no feature doc covers what was produced, the docs bullet falls back to a dated entry in `docs/BACKLOG.md` — homeless output is un-triaged knowledge, which is that file's purpose. Keep the chain **inside** the docs-ending bullet; the two-bullet rule held at its first flex test. Full story: `docs/feature-orchestrate.md` Gotchas.
 
+### Frontmatter YAML — never use a bare `: ` inside an unquoted value
+
+Use parentheses or an em dash instead of a colon in `description` (or quote the whole scalar). A colon-space makes YAML read the value as a nested mapping and **the entire frontmatter block is silently dropped at runtime** — including `disable-model-invocation`, which would turn a user-invoked skill model-invocable without any visible error. `claude plugin validate` catches it; run it after touching any frontmatter. Story: `docs/feature-orchestrate.md` Gotchas.
+
 ### Provenance block (third-party / derived residents)
 
 Inert HTML comment immediately after the frontmatter of the resident's main file — lineage travels with a copied file without entering the prompt:
