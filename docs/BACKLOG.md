@@ -12,7 +12,7 @@ All workflow-shaped; deferred (not rejected) because they overlap growing-docs i
 
 ## 2026-07-27 — from the first tandem run
 
-- ~~**Semantic validation spike (follow-up).**~~ **Answered 2026-07-27 — RED**, the validator checks syntax only. Mitigation is a RULES proofread rule (a linter would breach prompts-not-code). Remaining open question, worth one spike if it ever bites: **at runtime**, does an invalid `tools:` entry get dropped individually (harmless) or discard the whole allowlist (a read-only agent silently gaining write access)? Needs a live agent invocation, not a validator run.
+- ~~**Semantic validation spike (follow-up).**~~ **Answered 2026-07-27 — RED**, the validator checks syntax only. Mitigation is a RULES proofread rule (a linter would breach prompts-not-code). ~~Remaining open question, worth one spike if it ever bites: **at runtime**, does an invalid `tools:` entry get dropped individually (harmless) or discard the whole allowlist (a read-only agent silently gaining write access)?~~ **Answered 2026-07-28 — GREEN, dropped individually.** The allowlist holds; no privilege escalation from a typo. Ran as part of a widened three-part runtime spike (`reasoningEffort` domain + invalid `model:` + `tools:`) prompted by a proposed bundle-wide re-pin. Full findings and the one gap still open (does `reasoningEffort` *affect* behavior, or is it merely accepted?) → `docs/feature-orchestrate.md` § Spike findings, 2026-07-28.
 
 ## Borrow-list (engineering-practice, pull when a gap bites)
 
