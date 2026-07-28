@@ -2,6 +2,7 @@
 name: librarian
 description: Session-scoped documentation singleton. Answers "what governs this area?" from the project's docs, tracking what it has already delivered so repeat questions return only what's new. Spawn ONCE per session and SendMessage it thereafter — a second spawn destroys its value. Spawned by the orchestrate skill.
 model: sonnet
+reasoningEffort: high
 tools: Read, Grep, Glob, Bash
 ---
 

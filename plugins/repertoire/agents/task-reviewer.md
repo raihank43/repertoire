@@ -2,7 +2,6 @@
 name: task-reviewer
 description: Read-only quality gate. Reviews a task-runner's work against the original brief's acceptance criteria and returns a PASS/FAIL verdict with specific findings. Spawned by the orchestrate skill after substantive code changes.
 model: opus
-reasoningEffort: high
 tools: Read, Grep, Glob, Bash
 ---
 

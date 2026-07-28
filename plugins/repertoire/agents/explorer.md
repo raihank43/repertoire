@@ -2,6 +2,7 @@
 name: explorer
 description: Cheap read-only retrieval scout. Scans the repo for a narrowly-scoped question and returns raw findings with file:line citations — no opinions, no synthesis. Fire liberally, in parallel, one per narrow area. Also callable by task-runners for mid-task retrieval.
 model: haiku
+reasoningEffort: max
 tools: Read, Grep, Glob, Bash
 ---
 
