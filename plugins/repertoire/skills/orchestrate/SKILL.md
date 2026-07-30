@@ -39,6 +39,7 @@ Workers start cold: no conversation history, no idea what the user wants. Every 
 - **CONTEXT**: what's already known, what's been tried, why it matters.
 - **EXIT CONDITION**: what "answered" means here — the semantic stop.
 - **BUDGET**: a tool-call ceiling (~30 is a reasonable default). The hard stop.
+- **PROBES** (optional, default 3): the maximum number of discriminating experiments — each must state *in advance* which outcomes support or refute which theory. Probes and tool calls measure different things: a probe is one semantic experiment, a tool call is mechanical. A spiker that exhausts its probes reports INCONCLUSIVE with the surviving theories; it never invents an extra experiment to force a verdict.
 
 It returns **GREEN** (confirmed), **RED** (refuted), or **INCONCLUSIVE** (budget spent, or couldn't reproduce). Treat INCONCLUSIVE as genuinely different from RED — deciding against an approach on a budget-exhausted spike is deciding on no evidence. Spikers write probes to a gitignored scratch dir and clean up after themselves; add `isolation: "worktree"` when the probe is destructive (migrations, dependency upgrades) — but know that a fresh worktree lacks gitignored dependencies and environment, so it often can't run the project.
 
@@ -72,11 +73,28 @@ The user sees your text, not the agents'. After each delegated batch, summarize 
 
 Honestly assess which side of the line you are on. If you are not confident you are the strongest model in the room, you are in SUPERVISOR territory.
 
+**The advisor's scope is wider than design.** It reviews plans, architecture, and deadlocks — and equally: investigation strategy, evidence quality, diagnostic dead-ends, repeated causal reversals, and whether an investigation should stop as inconclusive. "This is debugging, not a judgment call" is not a reason to skip the consult; how you are investigating IS a judgment call.
+
 **Invocation is hybrid — explicit or automatic:**
 - *Explicit*: the user says "spawn an advisor", "ask Fable", "attack this plan" — always honor it, with the stance and model requested, even if you are confident you don't need it. Confidence is not a reason to skip review; it is what review is for.
-- *Automatic*: consult the advisor unprompted when (a) committing to an architecture/design that is expensive to reverse, (b) genuinely torn after your own analysis, (c) a fix loop hit the 2-round cap, (d) the change is security-sensitive, or (e) an implementation plan is large (new dependency, new pattern, or >~5 files). Do NOT consult for routine decisions — judgment lives here.
+- *Automatic*: consult the advisor unprompted when (a) committing to an architecture/design that is expensive to reverse, (b) genuinely torn after your own analysis, (c) a fix loop hit the 2-round cap, (d) the change is security-sensitive, (e) an implementation plan is large (new dependency, new pattern, or >~5 files), or (f) a spiral trigger fires during an investigation (below). Do NOT consult for routine decisions — judgment lives here.
 
 Send a DECISION BRIEF: MODE line, the question, options considered, your current lean and reasoning, constraints. Include your real lean — hiding it to look unbiased just starves the advisor of information.
+
+**Investigation discipline — spirals feel like progress from the inside.** When you are investigating an empirical question yourself (rather than spiking it), three rules bind you:
+
+1. **Ledger from the second theory.** One theory needs no bookkeeping. The moment you entertain a *second* causal theory on the same question, start a hypothesis ledger — backfill the first — and keep it current: CLAIM / EVIDENCE-FOR / FALSIFIER / RESULT / LIVE-STATE-TOUCHED, one row per theory. Every advisor consult and every user report about the investigation quotes the ledger, not your memory of it. Repeated "likely" claims with no ledger is the early sign you are dodging your own bookkeeping.
+2. **Probe budget: ≤3 discriminating probes per question.** Each probe states *in advance* which outcomes support or refute which theory. Budget exhausted → consult the advisor or report INCONCLUSIVE to the user — never invent a fourth probe.
+3. **Spiral triggers — consult before opening another diagnostic branch when either fires:**
+   - you retracted a conclusion you had reported as *established / confirmed / root-cause*; or
+   - you abandoned **two** branches without obtaining discriminating evidence.
+   A hypothesis you explicitly labeled tentative and then cleanly refuted counts as progress, not spiraling — falsification is healthy debugging.
+
+The spiral consult is a DECISION BRIEF whose "options considered" section is the ledger, and whose question is fixed: *which assumption or layer am I failing to challenge; does the proposed next experiment discriminate among the surviving explanations; should this stop as INCONCLUSIVE?* Never brief it as "find the bug" — a read-only, fresh-context advisor cannot reproduce anything, and handed only your favored theory it inherits your anchor.
+
+**If the spawn is blocked** (the classifier intermittently refuses agent spawns), that is *not* permission to continue — write the ledger down, mark the cause unresolved, and ask the user.
+
+**Live state is not a lab.** Diagnostic probes against anything live and shared — a credential, a running session, a mutable user store, a quota pool — are **single-flight only**: never fan out concurrent probes against the same one — treat this as inviolable, not as advice. Before a *second consequential touch* of live state — anything that mutates it, spends scarce quota, produces user-visible effects, or contends with a running session or shared process — state what the first touch established, what the next one *uniquely* discriminates, and its visible/state/quota cost; if it can mutate, spend, or disturb, **get the user's consent first**. The advisor can judge an experiment's information value; it can never substitute for that consent. Reading logs and other side-effect-free observation needs none of this.
 
 **Anti-handwave rules (both modes):**
 1. Relay the advisor's RECOMMENDATION and WOULD-CHANGE-MY-MIND lines to the user verbatim — never paraphrased, never summarized into agreement.

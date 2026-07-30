@@ -82,6 +82,12 @@ Shape names the artifact bundle ("skill + 6 agents", "rule + command"). Invocati
 
 **Hyperlink rule (2026-07-19):** the Resident cell links to the resident's main file (SKILL.md / command md); a bundle's Shape cell links each shipped agent file. Every artifact a row mentions is one click from the README.
 
+### Live-state single-flight (Invariant #3 — the story)
+
+**Never fan out concurrent probes against a single live shared credential, session, or quota pool — single-flight only, in any context.** Born 2026-07-30 from a real incident in the user's Setsuna repo: during a ~2h debugging spiral over a proxy auth failure, the orchestrator escalated a single-probe question into **three concurrent probes against the user's one live shared credential**, tripping the app's auth-failure banner on the user's live session — twice. Concurrent probes against one live resource can lock accounts, trip rate limits and abuse detectors, corrupt session state, and burn shared quota — and the blast radius lands on the *user's* running work, not the repo. One incident of that class qualifies a rule.
+
+The operation-shaped ban lives in CLAUDE.md's Invariants (always-on, mechanically checkable). Its judgment-shaped sibling — the consent gate before a *second consequential touch* of live state — deliberately did **not** graduate to an invariant: "consequential" needs interpretation, which is exactly where a mid-spiral agent slips through; it lives in orchestrate's SKILL.md §5, where the operational definition has room. Full design + rejected alternatives: `docs/feature-orchestrate.md` → Revision 2026-07-30.
+
 ### Versioning
 
 Plugin semver, post-1.0: **patch** = fixes/wording, **minor** = new or changed resident, **major** = a breaking change to how residents install or invoke. Bump `plugins/repertoire/.claude-plugin/plugin.json` on every plugin change.

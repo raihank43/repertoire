@@ -1,6 +1,6 @@
 ---
 name: advisor
-description: Independent peer reviewer for judgment calls. Fresh-context second opinion on plans, architecture decisions, and runner-reviewer deadlocks. Read-only, high reasoning effort, invoked sparingly — the orchestrator weighs its advice, never defers to it automatically.
+description: Independent peer reviewer for judgment calls. Fresh-context second opinion on plans, architecture decisions, runner-reviewer deadlocks — and investigation review (evidence quality, diagnostic dead-ends, repeated causal reversals, whether to stop as inconclusive). Read-only, high reasoning effort, invoked sparingly — the orchestrator weighs its advice, never defers to it automatically.
 model: fable
 reasoningEffort: high
 tools: Read, Grep, Glob, Bash

@@ -7,6 +7,7 @@ Operation-shaped absolutes guarding against **irreversible harm** (data loss, hi
 
 - An automated script or teardown may only delete the exact paths it created. Anything found by *content search* is printed as a manifest for the user — never deleted. _(seed)_
 - Never rewrite pushed git history (force-push, reset past a pushed commit) without the user's explicit go-ahead in the current session. _(seed)_
+- Never fan out concurrent probes against a single live shared credential, session, or quota pool — single-flight only, in any context. _(2026-07-30 — full story in `docs/RULES.md`)_
 
 ## Workflow — Follow This For Every Change
 

@@ -132,7 +132,7 @@ _Both agents ship together as v1.1.0 (user chose one-shot build after the second
 - `plugins/repertoire/agents/advisor.md` — fable high default (opus per-spawn override), read-only; RECOMMENDATION/REASONING/WOULD-CHANGE-MY-MIND/RISKS
 - `plugins/repertoire/agents/spiker.md` — opus medium, write-capable scratch-scoped; VERDICT/FINDING/EVIDENCE/CONFIDENCE+NOT-TESTED/CLEANUP/NEXT
 - `plugins/repertoire/agents/librarian.md` — sonnet high, read-only, session singleton; NEW/ALREADY SENT/NOT FOUND
-- `plugins/repertoire/.claude-plugin/plugin.json` — bumped to 1.1.0
+- `plugins/repertoire/.claude-plugin/plugin.json` — bumped to 1.3.0
 
 ## Dependencies
 
@@ -144,6 +144,9 @@ _Both agents ship together as v1.1.0 (user chose one-shot build after the second
 
 ## Changelog
 
+- 2026-07-30: **Built as v1.3.0** — investigation control + live-state safety: §2 spike brief gains `PROBES:`; §5 gains scope-widening, spiral trigger (f), investigation discipline (ledger-from-2nd-theory, ≤3-probe budget, retraction/two-dead-branches triggers), the spiral DECISION-BRIEF variant, normative classifier-block fallback, and the live-state passage; advisor description names investigation review; single-flight ban lands as CLAUDE.md Invariant #3 with its story in RULES. `claude plugin validate` green.
+- 2026-07-30: **Investigation control + live-state safety forged** (design only) — advisor-first anchor; §1-re-triage reframe rejected with a revisit trigger; live-state rule split by shape (ban → Invariants, consent gate → SKILL.md).
+- 2026-07-28: **v1.2.0** — roster re-pinned on inverse effort (explorer haiku@max, librarian sonnet@high, spiker opus@medium, runner opus@low, reviewer opus@unset, advisor fable@high); §5 tier = model × effort. _(This entry backfilled 2026-07-30 — the re-pin shipped without one.)_
 - 2026-07-19: Migration design forged; SUPERVISOR validation run GREEN (override-refusal path still unobserved)
 - 2026-07-19: Built as v0.3.0 — skill + 4 agents copied into plugin (agents byte-identical to validated originals; skill changed only in the genericized SUPERVISOR example + new `## Ending`); `claude plugin validate` green.
 - 2026-07-27: **Built as v1.1.0** — `spiker` + `librarian` agent defs added; SKILL.md §1 (ambiguity/uncertainty split, two new tiers, test-suites→runner), §2 (spike brief contract), new §6 (session-scoped agents), Ending fallback chain; README row now "skill + 6 agents". `claude plugin validate` green after fixing a frontmatter YAML break (see Gotchas).
