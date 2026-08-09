@@ -1,6 +1,6 @@
 # continue (resident: skill + preprocessing script)
 
-_Last updated: 2026-08-09 — recency signal, not a correctness guarantee. If the code has moved past this, trust the code. Files / Dependencies / API below are **derivable caches** — when stale, regenerate them from the code; hand-maintain only the sections above them (the code can't re-derive those)._
+_Last updated: 2026-08-09 (built) — recency signal, not a correctness guarantee. If the code has moved past this, trust the code. Files / Dependencies / API below are **derivable caches** — when stale, regenerate them from the code; hand-maintain only the sections above them (the code can't re-derive those)._
 
 ## Description
 
@@ -33,9 +33,17 @@ _Forged 2026-08-09. User-confirmed unless marked **derived**._
 - **Phase C — packaging + docs:** README resident row, RULES carve-out amendment, minor version bump. Verifiable: manifest validates, README links resolve.
 - **Phase D — live validation:** run it against a real past session of *this* repo (not the work repo) — the true portability test, since it exercises the generic entity patterns with no local config present. Findings → Spike findings / Gotchas.
 
+## Spike findings
+
+- 2026-08-09 — **Does the generalized pipeline survive a real transcript?** (Phase A/D smoke, 12.17 MB session) → **GREEN.** `find` located it by title across both stores; `clean` produced **12.17 MB → 0.71 MB (94% reduction)** in 7 volume-balanced segments (50–125 KB — no 388/5 KB pathology the time-gap approach caused). `verify` accepted valid anchors and rejected a fabricated one. Redaction proved out on a synthetic secret fixture: all six built-in shapes caught (JWT, Bearer, AWS, GitHub PAT, `sk-` key, URL credentials) plus `password is …`; the two project-specific literals leaked with built-ins alone and were **fully redacted once `.claude/continue.json` was present** — which is exactly the split the design predicted, now demonstrated rather than assumed.
+- 2026-08-09 — **`verify` is stricter than specified, and that's better.** It rejects any anchor absent from the cleaned file, not merely one above `maxAnchor` — anchors are sparse (only output-producing lines get one), so a plausible in-range fabrication is caught too. Documented rather than "fixed".
+
 ## Gotchas
 
-_Carried over from the original's first live run (2026-08-06) — these were paid for once already; don't rediscover them._
+_The first two were found during this build; the rest carried over from the original's first live run (2026-08-06) — paid for once already, don't rediscover them._
+
+- **`checkdir` failed OPEN on its first implementation — the exact bug class the gate exists to prevent.** It ran `git -C <parent-of-target>`, but the target normally does not exist yet, so git errored, the code read that as "not a repo", and returned **safe**. A tracked-but-not-yet-created output path would have been approved. Fixed by walking up to the nearest *existing* ancestor before asking git anything. Verified across four cases: tracked path → unsafe (exit 2), gitignored path → safe, outside-repo → safe, and **deep non-existent tracked path → unsafe** (the case that was broken). Lesson: a safety check whose failure mode is "assume safe" must be tested against paths that don't exist yet.
+- **A malformed `.claude/continue.json` degrades to built-ins with a warning, it does not crash** — verified accidentally when a test fixture wrote `` (invalid JSON escape). The script named the file, the parse error and its position, then continued. Correct behavior, but note the consequence: **a typo'd config silently reduces redaction coverage.** If the run reports `config: null` and you expected a config, treat that as a finding, not noise.
 
 - **Anchor confusion is real.** Subagents cited `[L2205]` when the maximum valid anchor was `L1948` — they were using the *segment file's own line numbers* as anchors. The defenses are cumulative and all three are needed: a header on each segment stating the valid range, an explicit extraction rule forbidding file line numbers, and the mechanical `verify` pass. Never skip verify.
 - **Do not segment at the largest time gap.** Tried and rejected: the biggest gap is someone sleeping, not a topic boundary — it produced one 388 KB segment and one 5 KB segment. Volume-based splitting at the nearest user-turn boundary replaced it.
@@ -43,8 +51,6 @@ _Carried over from the original's first live run (2026-08-06) — these were pai
 - **The `.claude/`-is-gitignored assumption does not travel.** True in that repo (which gitignores all of `.claude/`), false in repertoire. This is the reason the output path is verified at runtime rather than assumed.
 
 ## Files
-
-_Planned — nothing built yet._
 
 - `plugins/repertoire/skills/continue/SKILL.md` — the protocol (user-invoked)
 - `plugins/repertoire/skills/continue/scripts/transcript_prep.js` — `find` / `clean` / `verify`
@@ -67,4 +73,5 @@ Deepening path after the BRIEF: `INDEX.md` → anchor → `Grep -n "\[L1234\]" t
 
 ## Changelog
 
+- 2026-08-09: **Built as v1.4.0** — `skills/continue/SKILL.md` + `scripts/transcript_prep.js` (generalized: built-in secret/entity patterns, `.claude/continue.json` overrides, new `checkdir` safety gate). Smoke-tested end-to-end on a real 12 MB transcript; redaction verified against a synthetic secret fixture with and without a local config. Two bugs found and fixed during the build — see Gotchas. README row, ARCHITECTURE tree/shapes, RULES carve-out updated. `claude plugin validate` green.
 - 2026-08-09: **Forged** (design only, not built) — generalizes a private work repo's original; opens the prompts-not-code fence with a preprocessing carve-out; adds runtime-verified output location, config-driven redaction and entity patterns, and a verified-findings-only Ending.

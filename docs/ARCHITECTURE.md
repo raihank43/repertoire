@@ -19,7 +19,8 @@ repertoire/
 ├── plugins/repertoire/
 │   ├── .claude-plugin/plugin.json  # version — bump on every plugin change
 │   ├── skills/
-│   │   └── {skill-name}/SKILL.md   # one folder per skill; bundle agents live beside their SKILL.md (see note)
+│   │   ├── {skill-name}/SKILL.md   # one folder per skill; bundle agents live beside their SKILL.md (see note)
+│   │   └── continue/scripts/       # the one shipped script — deterministic transcript preprocessing (see carve-out)
 │   ├── agents/                     # agent defs shipped by bundles (orchestrate's six: task-runner, task-reviewer, explorer, advisor, spiker, librarian)
 │   └── commands/                   # rule residents: command + embedded ruleset block, one file (minimalism)
 ├── docs/                           # this repo's own growing-docs tree
@@ -32,7 +33,7 @@ repertoire/
 
 repertoire is a **library of agent artifacts** in three shapes:
 
-1. **Skills** — SKILL.md folders, each declaring `user-invoked` or `model-invoked` (user-invoked may call model-invoked, never each other). Skills producing durable knowledge end with an `## Ending` section (growing-docs docs-shaped ending + chat fallback).
+1. **Skills** — SKILL.md folders, each declaring `user-invoked` or `model-invoked` (user-invoked may call model-invoked, never each other). Skills producing durable knowledge end with an `## Ending` section (growing-docs docs-shaped ending + chat fallback). A skill folder may also carry a `scripts/` dir under the **data-preprocessing carve-out** (RULES §Main Principles): deterministic transformation only, `node` stdlib, read-only w.r.t. project state — `continue` is the only such resident, and judgment stays in its SKILL.md.
 2. **Rules** — always-on rulesets (minimalism). Plugins cannot ship always-on context, so each rule resident = a scaffolding command in the plugin, with the canonical rule text **embedded in the command body** (decided in the minimalism forge — no separate `rules/` dir; the block inside the command is the source of truth). The command installs/updates it into a target repo (`.claude/rules/`) or user scope (`~/.claude/rules/`).
 3. **Bundles** — a skill plus the agent definitions it requires (orchestrate + task-runner/task-reviewer/explorer/advisor/spiker/librarian), installed together via the plugin.
 
