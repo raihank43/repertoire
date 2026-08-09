@@ -5,7 +5,7 @@
 
 Operation-shaped absolutes guarding against **irreversible harm** (data loss, history rewrites, leaked secrets, user-data writes). One incident of that class qualifies a rule — don't wait for a second unrecoverable bite. Write each as an absolute about an *operation* ("never X, in any context"), never about a workflow ("when doing Y, avoid X") — violations arrive wearing situations the rule's author never pictured. **Hard cap: 10** — scarcity is what keeps these salient. `/checkpoint` runs the audit that feeds this list, plus promotions and evictions; a rule born from a project incident links to its full story in `docs/RULES.md`.
 
-- An automated script or teardown may only delete the exact paths it created. Anything found by *content search* is printed as a manifest for the user — never deleted. _(seed)_
+- An automated script or teardown may only delete paths it created, **enumerated literally — never via wildcard, glob, or pattern match**. Anything found by *content search* is printed as a manifest for the user — never deleted. _(seed; wildcard clause added 2026-08-10 after a near-miss — story in `docs/RULES.md`)_
 - Never rewrite pushed git history (force-push, reset past a pushed commit) without the user's explicit go-ahead in the current session. _(seed)_
 - Never fan out concurrent probes against a single live shared credential, session, or quota pool — single-flight only, in any context. _(2026-07-30 — full story in `docs/RULES.md`)_
 

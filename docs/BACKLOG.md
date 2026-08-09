@@ -14,6 +14,12 @@ All workflow-shaped; deferred (not rejected) because they overlap growing-docs i
 
 - ~~**Semantic validation spike (follow-up).**~~ **Answered 2026-07-27 — RED**, the validator checks syntax only. Mitigation is a RULES proofread rule (a linter would breach prompts-not-code). ~~Remaining open question, worth one spike if it ever bites: **at runtime**, does an invalid `tools:` entry get dropped individually (harmless) or discard the whole allowlist (a read-only agent silently gaining write access)?~~ **Answered 2026-07-28 — GREEN, dropped individually.** The allowlist holds; no privilege escalation from a typo. Ran as part of a widened three-part runtime spike (`reasoningEffort` domain + invalid `model:` + `tools:`) prompted by a proposed bundle-wide re-pin. Full findings and the one gap still open (does `reasoningEffort` *affect* behavior, or is it merely accepted?) → `docs/feature-orchestrate.md` § Spike findings, 2026-07-28.
 
+## 2026-08-10 — from the v1.2.0→v1.4.0 stretch
+
+- **H3 — which invocation surfaces honor frontmatter `model:` on this machine?** Task-spawned agents pinned `model: opus` were observed dispatching to the local `gpt-5.5` subagent brain, while `model: haiku` probes reached real haiku — so the override is real but not blanket. One debug-dispatch spike would map it. **Machine-local: the answer must never flow into plugin portability doctrine.** Practical stake: whether the v1.2.0 opus pins on spiker/runner mean locally what they mean on paper. Full context: `feature-orchestrate.md` Spike findings, 2026-07-30.
+- **Cut over the private work repo's `/continue`** to the shipped resident — move its literals and entity patterns into that repo's gitignored `.claude/continue.json`, then delete the local command + script. No deadline; the local copy still works. Precedent: minimalism and orchestrate both did this.
+- **A `--dry-run` for `continue`'s clean phase?** Would let you see segment sizes and redaction hit-counts before committing a full extraction spend. Speculative — only worth it if a run ever gets segmented badly enough to notice.
+
 ## Borrow-list (engineering-practice, pull when a gap bites)
 
 From mattpocock/skills (MIT) and asrafilll/work-skills. **Bodies read 2026-07-19** — assessments below are grounded, not name-guesses. Ordered roughly by borrow-readiness:

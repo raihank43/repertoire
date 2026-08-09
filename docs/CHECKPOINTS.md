@@ -3,6 +3,44 @@ Full session reports from `/checkpoint`, newest first. The cold-start brief live
 PLAN.md's Current Focus; this file is the history behind it. Full entries are uncapped;
 `lite:` entries are budgeted summaries whose durable detail lives in native docs.
 
+## 2026-08-10 — 05be82f — v1.1.0 → v1.4.0: three minor releases, two forges, and the residents start catching their own bugs
+
+**Scope.** Baseline `e80d763` confirmed an ancestor; swept `e80d763..HEAD` = 9 commits across three releases. Working tree clean at checkpoint time.
+
+**What shipped.**
+
+- **v1.2.0 — orchestrate roster re-pinned on "inverse effort."** A runtime spike found `reasoningEffort` accepts five values (`low`/`medium`/`high`/`xhigh`/`max`), not just `high` — documented in `claude --help`'s `--effort` enum, the first documented source found for the field. That turned effort into a **new rung on the cheap-model escalation ladder** (previously: harder wording → tool budget → model bump), which is why explorer stayed on haiku and got `max` instead of being promoted to sonnet. Final roster: explorer haiku@max, librarian sonnet@high, spiker opus@medium, task-runner opus@low, task-reviewer opus@unset, advisor **fable**@high. SKILL.md §5 gained "tier means model × effort, assessed per consult" because the new roster put a fable@high advisor against an opus@medium orchestrator — a pairing the old model-name-only examples couldn't classify.
+- **v1.3.0 — investigation control + live-state safety.** Forged and built same-day from a real incident in the user's other repo: a verification task hit an auth failure and the orchestrator spent ~2h on five proposed-then-retracted causal theories, ran three concurrent probes against one live shared credential (tripping the user's live auth banner twice), and never consulted the advisor. §5 gained the spiral machinery; §2's spike brief gained `PROBES:`; the single-flight ban became **CLAUDE.md Invariant #3** — the list's first non-seed entry.
+- **v1.4.0 — `continue`, the first resident to ship a script.** Retrospective context reconstruction from a raw transcript; the forensic counterpart to `/checkpoint` (recovers sessions nobody checkpointed, works in repos with no docs system). Required opening a hard-constraint fence: prompts-not-code gained a **data-preprocessing carve-out**.
+
+**Verification evidence.**
+
+- **Runtime spike, three GREENs** (CLI 2.1.220, scratch harness): bad `model:` fails **loud** (visible API error at spawn, no silent substitution); bad `tools:` entry is **dropped individually** — the allowlist holds, closing the privilege-escalation worry the earlier RED spike left open, proven by capability (a typo'd read-only agent attempted a write and returned `CANNOTWRITE`, independently confirmed by filesystem check rather than self-report); bad `reasoningEffort` fails **silent**. That asymmetry is now a RULES table.
+- **`continue` Phase A smoke:** 12.17 MB → 0.71 MB (94%), 7 balanced segments. Redaction proved on a synthetic fixture — six built-in shapes caught; two project-specific literals leaked with built-ins alone and were fully redacted once a local config was present, demonstrating the design's central claim rather than assuming it.
+- **`continue` Phase D live run:** GREEN across all seven phases. `verify` returned **0 invalid anchors out of 144** cited by three independent parallel subagents — the exact failure that broke the original's first run. 4/4 spot-checks resolved with matching verbatim quotes; 7/7 claimed commits verified present in the source repo.
+
+**Bugs the process caught (the theme of this stretch).**
+
+1. **`checkdir` shipped fail-open — in the safety gate itself.** It ran `git -C` against the target's *parent*, which normally doesn't exist yet, read git's error as "not a repo", and returned **safe**. A tracked-but-not-yet-created output path would have been approved. Caught by testing the gate rather than trusting it; fixed by probing the nearest existing ancestor. Lesson: *a safety check whose failure mode is "assume safe" must be tested against paths that don't exist yet.*
+2. **The advisor redirected a live spiral, unstaged.** Trigger (b) fired genuinely on the `reasoningEffort` investigation (three branches dead without discriminating evidence). The advisor re-read SKILL.md and the feature doc before ruling, then killed the orchestrator's proposed 4th branch for two concrete reasons it had missed — `--agent` selects a *session* agent, a different routing surface than Task-spawning, so the result wouldn't transfer; and `thinking_tokens` was never validated as an observable. Investigation closed INCONCLUSIVE with reopeners recorded verbatim.
+3. **Spiker INCONCLUSIVE held twice** rather than collapsing into RED — once would have killed the entire re-pin on a false negative.
+
+**Known blind spots.**
+
+- Whether `reasoningEffort` has any *effect* remains unverified; the whole roster is pinned on a dominated bet (free if inert, valuable if not). Closed as INCONCLUSIVE by advisor ruling, not by evidence.
+- **H3**, machine-local: Task-spawned `model: opus` pins were observed dispatching to the local gpt-5.5 subagent brain while haiku pins reached real haiku. → BACKLOG 2026-08-10.
+- Still-unobserved v1.3.0 paths: spiral trigger (a) retraction, the live-state consent gate, the classifier-block fallback.
+- Also unverified: whether a spawn-time `model:` override preserves frontmatter effort.
+
+**Violation audit — 1 hit, graduated.** `rm -rf C:/tmp/continue-smoke C:/tmp/redact-out* …` used a **wildcard** during scratch cleanup. Harmless in fact (every match was self-created) but wrong in reasoning: a glob deletes by *match*, not by creation record, so any pre-existing `redact-out-anything` would have died silently. The old wording ("the exact paths it created") read as satisfied because the created paths did match — that is the loophole. **Outcome: Invariant #1 reshaped** to require literal enumeration, never wildcard/glob/pattern. Story in RULES §Literal-enumeration deletes. Invariants remain at 3 of 10.
+
+**Recipes worth keeping.**
+
+- A spiker can **stall waiting on its own background children** and return prose instead of a VERDICT — a reply with no VERDICT line is a stall, not a result; resume it, don't interpret it.
+- `--permission-mode bypassPermissions` is refused outright by the auto-mode classifier; headless harnesses need `acceptEdits` + scoped `--allowedTools`.
+- **A stale project-scope install silently shadows a fresh user-scope one.** `/plugin marketplace update` refreshed user scope to 1.4.0 while a project-scoped entry sat at 1.3.0 without the new skill. The cache's `.orphaned_at` marker is **not** a liveness signal — compare `installPath` per scope in `installed_plugins.json`.
+- Frontmatter and the spawn-time override are **different surfaces with different value domains**: frontmatter takes full version names (`claude-opus-4-8` resolves), the Agent tool's override takes aliases only and has **no effort parameter**. So model pins are soft (correctable mid-session), effort pins are hard.
+
 ## 2026-07-27 — e80d763 — v1.0.0 → v1.1.0: orchestrate becomes a 6-agent bundle, forged/built/tandem-validated in one session
 
 **Scope.** Baseline `0174b31` confirmed an ancestor; swept `0174b31..HEAD` = 6 commits (including the prior checkpoint's own commit `e04b567`). Working tree clean throughout.

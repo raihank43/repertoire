@@ -1,6 +1,6 @@
 # continue (resident: skill + preprocessing script)
 
-_Last updated: 2026-08-09 (built) — recency signal, not a correctness guarantee. If the code has moved past this, trust the code. Files / Dependencies / API below are **derivable caches** — when stale, regenerate them from the code; hand-maintain only the sections above them (the code can't re-derive those)._
+_Last updated: 2026-08-10 — recency signal, not a correctness guarantee. If the code has moved past this, trust the code. Files / Dependencies / API below are **derivable caches** — when stale, regenerate them from the code; hand-maintain only the sections above them (the code can't re-derive those)._
 
 ## Description
 

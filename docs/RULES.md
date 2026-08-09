@@ -82,6 +82,10 @@ Shape names the artifact bundle ("skill + 6 agents", "rule + command"). Invocati
 
 **Hyperlink rule (2026-07-19):** the Resident cell links to the resident's main file (SKILL.md / command md); a bundle's Shape cell links each shipped agent file. Every artifact a row mentions is one click from the README.
 
+### Literal-enumeration deletes (Invariant #1's wildcard clause — the story)
+
+**A glob deletes by *match*, not by creation record — so it can never satisfy "only what you created."** Near-miss 2026-08-10: cleaning up spike scratch, the orchestrator ran `rm -rf C:/tmp/continue-smoke C:/tmp/redact-out* C:/tmp/cfgtest …`. It was harmless in fact — every `redact-out*` directory was its own — but the *reasoning* was wrong: the pattern was written from memory of what had been created, and any pre-existing `C:/tmp/redact-out-anything` would have been destroyed silently. The original wording ("the exact paths it created") read as satisfied because the created paths did match, which is exactly the loophole. Enumerate literally; if the list is long, that is the cost of the guarantee. Full audit: `docs/CHECKPOINTS.md`, 2026-08-10.
+
 ### Live-state single-flight (Invariant #3 — the story)
 
 **Never fan out concurrent probes against a single live shared credential, session, or quota pool — single-flight only, in any context.** Born 2026-07-30 from a real incident in the user's Setsuna repo: during a ~2h debugging spiral over a proxy auth failure, the orchestrator escalated a single-probe question into **three concurrent probes against the user's one live shared credential**, tripping the app's auth-failure banner on the user's live session — twice. Concurrent probes against one live resource can lock accounts, trip rate limits and abuse detectors, corrupt session state, and burn shared quota — and the blast radius lands on the *user's* running work, not the repo. One incident of that class qualifies a rule.
