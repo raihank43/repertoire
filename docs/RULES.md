@@ -4,7 +4,7 @@ _Entry shape: an entry here is a **generalized rule — imperative + one-line wh
 
 ## Main Principles
 
-- **Residents are prompts, not code** (hard constraint): markdown + YAML frontmatter only. Any tooling stays a thin copy step; the plugin system is the installer.
+- **Residents are prompts, not code** (hard constraint): markdown + YAML frontmatter only. Any tooling stays a thin copy step; the plugin system is the installer. **One carve-out (2026-08-09, `continue`):** a resident MAY ship a deterministic **data-preprocessing** script when the alternative is feeding a model raw bulk data it should never read. Judgment, routing, and synthesis stay in the prompt; the script must be read-only w.r.t. project state and add no runtime dependency beyond `node`. The line that matters: a script that *feeds* prompt judgment is allowed; a script that *substitutes for* it is not — which is why the 2026-07-27 lint-script rejection still stands. Full story: `docs/feature-continue.md`.
 - **Enforcement layer determines placement:** what the *harness* enforces goes in frontmatter (invocation mode); what the *model* must execute goes in the body (`## Ending`); what neither needs goes inert (provenance comment). Never restate one layer in another — the duplicate drifts.
 - **Two compliance shapes** with growing-docs: most skills *produce a docs ending*; rules like minimalism are instead *recognized by a growing-docs gate* (vocabulary-compatible, no Ending section). Don't bolt an Ending onto a rule — see `docs/feature-house-conventions.md` Gotchas.
 

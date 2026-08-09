@@ -1,0 +1,70 @@
+# continue (resident: skill + preprocessing script)
+
+_Last updated: 2026-08-09 — recency signal, not a correctness guarantee. If the code has moved past this, trust the code. Files / Dependencies / API below are **derivable caches** — when stale, regenerate them from the code; hand-maintain only the sections above them (the code can't re-derive those)._
+
+## Description
+
+**Retrospective context reconstruction.** Given the title of an old conversation, it finds that session's raw transcript, strips it down deterministically, extracts the durable facts through parallel subagents, verifies every citation mechanically, and writes an anchored BRIEF you can resume work from — without any model ever reading the raw JSONL (which can run to tens of MB, ~95% of it base64 attachments and tool dumps).
+
+**The inverse of `/checkpoint`, not a duplicate of it.** Checkpoint is *prospective and cooperative* — it writes docs before context is lost, and it requires you to have been disciplined. Continue is *retrospective and forensic* — it reconstructs from what actually happened, after the fact, for sessions where nobody checkpointed, in repos that may have no docs system at all. It's the recovery path for undisciplined sessions.
+
+Generalized from an original built in a private work repo (first live run 2026-08-06), which stays in place until the user chooses to cut over.
+
+## Decided design
+
+_Forged 2026-08-09. User-confirmed unless marked **derived**._
+
+- **Hard-constraint amendment — the prompts-not-code rule gains a data-preprocessing carve-out.** This is the first resident whose job is *processing a bulk artifact*, and asking a model to strip base64 is the wrong tool on cost, accuracy, and determinism. New rule: a resident MAY ship a deterministic preprocessing script when the alternative is feeding a model raw bulk data it shouldn't read; judgment, routing, and synthesis stay in the prompt; the script stays read-only w.r.t. project state and adds no runtime dependency beyond `node`. **This is a Chesterton's fence deliberately opened** — the same constraint killed a lint script on 2026-07-27, and that rejection stands: a linter *substitutes for* prompt judgment, whereas this script *feeds* it. _(Rejected: prompt-only, script supplied per-project — throws away the marketplace's auto-update and guarantees drift between copies. Rejected: re-express the pipeline as bash/jq one-liners — replaces 216 readable lines with fragile shell that does the job worse, and `jq` isn't guaranteed present on Windows.)_
+- **Output location — ask the user at runtime; default in-repo, gated by a `git check-ignore` hard stop.** The skill proposes `.claude/context/<slug>/`, verifies that path is actually ignored, and **refuses to write if it isn't** — offering the external path (`~/.claude/continue/<project>/<slug>/`) instead of failing. The user picks. Rationale for keeping a human in the loop: the original assumed `.claude/` was gitignored — true in that repo, **false in repertoire**, where only `settings.local.json` is ignored. An assumption that silently inverts between repos is exactly what shouldn't be automated away. _(Rejected: always-external — safest by construction but takes the choice away and moves output away from the project it describes. Rejected: in-repo with no verification — the original's behavior; one `.gitignore` difference away from committing a transcript to a public repo.)_
+- **Redaction — generic built-ins + per-project local overrides.** Ships shape-based patterns useful anywhere (JWT, `Bearer`, AWS keys, PEM blocks, `password:`/`secret:` assignments, connection strings). Project-specific literals live in a gitignored local config, so the work repo's hardcoded client password moves **out of shipped code** and never reaches GitHub. **Redaction protects two surfaces, not one:** what lands on disk *and* what the extraction subagents are sent — the second doesn't care whether your `.gitignore` is correct. _(Rejected: built-ins only — a regression on the highest-sensitivity repo, since a literal password matches no generic shape and would sail through to disk and to the model. Rejected: entropy-based redaction — cannot distinguish a secret from a git SHA, UUID, or base64 fragment, so it manufactures omission, and omission is this command's own stated dominant failure mode.)_
+- **Denylists fail open — say so in the skill.** No configuration makes a cleaned transcript *safe*, only *less bad*. The skill states plainly that a cleaned transcript is never to be shared off-machine, and the output-location gate exists because of this, not in place of it.
+- **Entity index — generic built-ins + the same local config, one file with two sections.** Ships file-path/URL/git-SHA/ticket-ID/error-name patterns; the work repo's ticket, purchase-order and DB-table regexes move into `.claude/continue.json` verbatim. The index is what makes "find the anchor for topic X" work later, so losing it would gut the deepening path. _(Rejected: built-ins only — the work repo loses most of what makes its INDEX navigable. Rejected: a subagent deriving entities from the transcript — another model pass, non-deterministic, and it contradicts the command's own "preprocessing is deterministic" principle.)_
+- **`## Ending` — the BRIEF stays local; only *verified* findings graduate.** In a growing-docs host: footguns → the touched feature doc's Gotchas, still-binding decisions → PLAN's Decisions log, findings with no owning doc → a dated `docs/BACKLOG.md` entry (the established fallback chain). **Unverified claims never graduate** — the BRIEF is transcript-derived reconstruction, and Phase 4.3 already separates what was verified against the repo from what wasn't. Elsewhere: the BRIEF plus the spoken summary is the whole record. _(Rejected: no Ending at all on librarian-like "it only consumes" grounds — false here; the librarian genuinely writes nothing, while this writes a BRIEF full of findings and footguns, which would strand real knowledge in a gitignored folder. Rejected: graduating the BRIEF wholesale into `docs/` — commits partly-unverified transcript-derived content, which is the doc-theater failure the orchestrate Ending already rejected, and it quotes the transcript, so it's a leak path.)_
+- **Shape — a skill folder, `skills/continue/`, carrying its own `scripts/`.** The only shape that can hold the script the carve-out just permitted; also what RULES prefers for new work. User-invoked (`disable-model-invocation: true`) per house doctrine — it's expensive and deliberate. _(Rejected: a `commands/` file matching the original and minimalism's precedent — commands are legacy per Claude Code docs, and a bare command file has no home for the script.)_
+- **Language — English prose** for a public-facing artifact, unlike the Indonesian original. Communication *to the user* stays whatever the session is speaking. _(Rejected: keeping Indonesian — matches daily working style but ships an artifact most visitors of a public repo can't read, breaking the convention every other resident follows.)_
+- **Model — `sonnet` default, `--model <alias>` override; brain tags genericized** exactly as the orchestrate migration did. Grounded in the original's own comparative finding: flash and sonnet found similar facts, but flash was looser about anchor accuracy and padded with unrequested process narration, while sonnet was honester in UNCERTAIN and more willing to retract its own claims. _(**Derived** — the tier was measured in the original, not re-interviewed.)_
+- **Coexistence — ship generalized; the work repo migrates when convenient, no deadline.** The repertoire skill is built to fully cover the work repo's needs (its literals and entities move into the local config), and that copy keeps working untouched until the user chooses to delete it. Same cutover shape minimalism and orchestrate both used. _(Rejected: a permanent maintained fork — two codebases for one job, which is why the provenance convention exists. Rejected: migrating the work repo in this same change — touches a work repo mid-flight and makes a smoke-test failure block real work.)_
+- **Preserved from the original, deliberately** (**derived** — these are why it works, and the generalization must not lose them): the governing principle *preprocessing is deterministic, extraction is the model, synthesis is you*; **omission — not confabulation — named as the dominant failure mode**, with the model floor and rigid extraction schema set accordingly; anchors with **mechanical verification** (`verify` re-checks every cited `[L…]` against the file and exits non-zero on invalid, so correctness never rests on a subagent's good behavior — the same self-enforcing principle as the librarian's verify-before-cite); segment headers stating the valid anchor range; volume-based segmentation; the fixed 8-part extraction schema with `0. STATE AT END` on the final segment; and the "repo wins over transcript" verification rule.
+
+## Build phasing
+
+- **Phase A — script generalization:** copy `transcript_prep.js` into `skills/continue/scripts/`, strip the work-specific secrets and entity regexes, add generic built-ins, add optional `.claude/continue.json` loading (two sections: `secrets`, `entities`), add the `check-ignore` helper the skill calls. Verifiable: run `find` + `clean` against a real transcript in this repo and diff the output shape against the original's run.
+- **Phase B — SKILL.md:** English translation with the phase structure intact, plus the runtime output-location prompt, the fail-open warning, `## Ending`, and the genericized model override. Verifiable: `claude plugin validate` green; read-through against this design.
+- **Phase C — packaging + docs:** README resident row, RULES carve-out amendment, minor version bump. Verifiable: manifest validates, README links resolve.
+- **Phase D — live validation:** run it against a real past session of *this* repo (not the work repo) — the true portability test, since it exercises the generic entity patterns with no local config present. Findings → Spike findings / Gotchas.
+
+## Gotchas
+
+_Carried over from the original's first live run (2026-08-06) — these were paid for once already; don't rediscover them._
+
+- **Anchor confusion is real.** Subagents cited `[L2205]` when the maximum valid anchor was `L1948` — they were using the *segment file's own line numbers* as anchors. The defenses are cumulative and all three are needed: a header on each segment stating the valid range, an explicit extraction rule forbidding file line numbers, and the mechanical `verify` pass. Never skip verify.
+- **Do not segment at the largest time gap.** Tried and rejected: the biggest gap is someone sleeping, not a topic boundary — it produced one 388 KB segment and one 5 KB segment. Volume-based splitting at the nearest user-turn boundary replaced it.
+- **Flash vs sonnet:** comparable fact discovery, but flash was looser on anchor accuracy and added unrequested process narration; sonnet was more honest in UNCERTAIN and retracted its own claims more readily. Hence the sonnet floor.
+- **The `.claude/`-is-gitignored assumption does not travel.** True in that repo (which gitignores all of `.claude/`), false in repertoire. This is the reason the output path is verified at runtime rather than assumed.
+
+## Files
+
+_Planned — nothing built yet._
+
+- `plugins/repertoire/skills/continue/SKILL.md` — the protocol (user-invoked)
+- `plugins/repertoire/skills/continue/scripts/transcript_prep.js` — `find` / `clean` / `verify`
+- `.claude/continue.json` (per-project, gitignored, optional) — `secrets` + `entities` sections
+- Origin (unchanged, pre-cutover): the work repo's `.claude/commands/continue.md` + `.claude/scripts/transcript_prep.js`
+
+## Dependencies
+
+- `node` on PATH (the only runtime dependency; no npm packages).
+- Transcript stores: `%APPDATA%/setsuna-ui/profiles` and `%USERPROFILE%/.claude/projects`. **Verified 2026-08-09:** both carry `aiTitle`, so title-matching works across both.
+- Plugin packaging skeleton; house conventions (invocation mode, Ending, README row).
+
+## API / Interface
+
+`/repertoire:continue "<session title>" [--archive] [--cheap] [--model <alias>]`
+
+Six phases: **1** find transcript by session title (not file content) · **2** deterministic clean/index/split · **3** parallel extraction, one subagent per segment, fixed 8-part schema · **4** verify anchors mechanically + spot-check + reconcile against the repo (repo wins) · **5** write BRIEF.md · **6** report and **stop** — it reconstructs context, it does not resume the work, commit, push, or message anyone.
+
+Deepening path after the BRIEF: `INDEX.md` → anchor → `Grep -n "\[L1234\]" transcript-clean.md` → `Read` with offset. Never read the raw JSONL.
+
+## Changelog
+
+- 2026-08-09: **Forged** (design only, not built) — generalizes a private work repo's original; opens the prompts-not-code fence with a preprocessing carve-out; adds runtime-verified output location, config-driven redaction and entity patterns, and a verified-findings-only Ending.
