@@ -21,6 +21,17 @@ Declared by the native frontmatter field alone — no parallel marker:
 
 Doctrine (from mattpocock/skills): a user-invoked skill may invoke model-invoked ones, **never another user-invoked one**.
 
+**The flag does two things, not one.** `disable-model-invocation: true` blocks autonomous invocation **and removes the skill from the model-visible catalog entirely**. So a locked skill can be neither fired *nor mentioned* — the model has never heard of it and cannot suggest it. Symptom when this bites: a session asked to use the skill goes globbing for its `SKILL.md`. There is no second field to decouple the two axes. Verified by contrast pair (CLI 2.1.246) — story: `docs/feature-orchestrate.md` Spike findings, 2026-08-26.
+
+**Default to model-invoked.** Reach for the flag only when **both** hold:
+
+- **(a) Visibility buys nothing** — the skill is always deliberately invoked; the user knows they want it before the session starts.
+- **(b) A spurious run is costly** enough to be worth paying invisibility for.
+
+**If (a) fails, do not lock regardless of (b)** — put a gate in the body instead. A body gate is model-enforced and therefore weaker than the flag, but it is read on load, whereas a locked skill is never reached at all.
+
+Live worked examples: `orchestrate` fails (a) → model-invoked, with a self-initiative gate at the top of §1 and an anti-trigger in its `description`. `continue` passes (a) → stays locked. When a skill is model-invoked, its `description` is the **pre-load routing contract** — carry the negative trigger there, not only in the body, or the body's gate arrives after the tokens are already spent.
+
 ### `## Ending` section (skills producing durable knowledge)
 
 Required last body section; opens with the detection cue, then exactly two bullets:

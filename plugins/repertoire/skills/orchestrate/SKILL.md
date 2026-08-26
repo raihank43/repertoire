@@ -1,7 +1,6 @@
 ---
 name: orchestrate
-description: Delegation protocol — the main agent keeps planning, judgment, and user discussion for itself, and farms out the rest to cheaper workers (repo browsing, code writing, repetitive edits, empirical investigation, documentation lookup), with an Opus reviewer gating substantive changes. Invoke when a task decomposes into well-specified subtasks, or when progress is blocked on something reality can answer.
-disable-model-invocation: true
+description: Delegation protocol — the main agent keeps planning, judgment, and user discussion for itself, and farms out the rest to cheaper workers (repo browsing, code writing, repetitive edits, empirical investigation, documentation lookup), with an Opus reviewer gating substantive changes. Use when a task decomposes into several well-specified subtasks, or when progress is blocked on something reality can answer. Not for small or single-step work — delegation overhead exceeds the gain below roughly five minutes of mechanical effort.
 ---
 
 # Orchestrate: delegate the mechanical, keep the judgment
@@ -9,6 +8,8 @@ disable-model-invocation: true
 You (the main agent) are the orchestrator. You own: decomposition, briefs, routing, reading reports, verdict decisions, integration, and all conversation with the user. You never delegate those. Subagents cannot talk to each other — every hop goes through you. That is the design, not a limitation: your judgment stays in the loop at every gate.
 
 ## 1. Triage — should this be delegated at all?
+
+**If you reached this skill on your own initiative** rather than the user asking for it — say so, name in one line the delegation you propose, and get the user's go-ahead **before spawning any agent**. Auto-invocation loads these instructions; it does not authorize spending the user's tokens on a fan-out they never asked for. If the answer below is "handle it yourself", just handle it and say nothing about this skill.
 
 Handle it YOURSELF when the task is: a design decision, a discussion with the user, security-sensitive, or so small that writing the brief costs more than doing it (< ~5 min of mechanical work). Delegation has overhead; don't pay it for trivia.
 
