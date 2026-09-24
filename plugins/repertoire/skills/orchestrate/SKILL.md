@@ -117,7 +117,7 @@ Workers start cold: no history, no idea what the user wants.
 
 Never send a reviewer: "verify everything" / "character by character" / "find what wasn't asked" (enumerate instead); a design or severity judgment (→ `advisor`); "discover how X works" (→ spike first, then review against the finding). Open-ended review briefs are what make reviews slow — and a review that runs out of time delivers nothing at all.
 
-Match reviewer depth to the slice: a tight review of a small slice doesn't need your slowest thinker.
+Match reviewer depth to the slice: a tight review of a small slice doesn't need your slowest thinker. A `model:` override only works if the host serves that model — if a spawn fails on the override, respawn without it rather than reading the failure as a verdict.
 
 ## 6. The review gate (substantive changes)
 
