@@ -140,7 +140,8 @@ The project's domain language — terms code, docs, and conversations should use
 | **bundle** | A skill plus the agent definitions it requires, installed together (e.g. orchestrate + its 6 agents) |
 | **ending** | Where a skill's durable output lands — docs-shaped in a growing-docs host, chat fallback elsewhere |
 | **gate-recognized** | The inverse compliance shape: a rule a growing-docs gate detects and yields to (minimalism), not one that writes docs |
-| **spike** | Any time-boxed empirical investigation — forward (will this work?) *or* backward (why is this failing?). Deliberately wider than the XP sense; verdicts are GREEN / RED / **INCONCLUSIVE**, and INCONCLUSIVE never collapses into RED |
+| **spike** | Any time-boxed empirical investigation. Deliberately wider than the XP sense. Three shapes since v1.6.0: **INVESTIGATE** covers forward (will this work?) and backward (why is this failing?) questions and returns GREEN / RED / **INCONCLUSIVE**, and INCONCLUSIVE never collapses into RED. **RETRIEVE** finds a record, fact or test data and returns FOUND / NOT-FOUND. **VERIFY** runs scripted app scenarios and returns raw evidence per scenario, never pass/fail. Every shape delivers a finding, not a change |
+| **running counter** | Orchestrate's delegation trigger (v1.6.0). On any task outside the orchestrator's closed "yours" list, the 5th tool call or the 2nd edited file means stop and brief the rest. It replaced an up-front size estimate, which tended to come out far too low |
 | **session-scoped singleton** | An agent spawned once per session and reused via `SendMessage` (librarian), as opposed to stateless fan-out (explorer). Statefulness and parallelism are incompatible — a second spawn silently destroys the value |
 
 ## Anti-Patterns
