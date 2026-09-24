@@ -20,6 +20,10 @@ All workflow-shaped; deferred (not rejected) because they overlap growing-docs i
 - **Cut over the private work repo's `/continue`** to the shipped resident — move its literals and entity patterns into that repo's gitignored `.claude/continue.json`, then delete the local command + script. No deadline; the local copy still works. Precedent: minimalism and orchestrate both did this.
 - **A `--dry-run` for `continue`'s clean phase?** Would let you see segment sizes and redaction hit-counts before committing a full extraction spend. Speculative — only worth it if a run ever gets segmented badly enough to notice.
 
+## 2026-09-24 — from the v1.6.0 field audit
+
+- **Preserve the field-audit tooling before re-running it.** PLAN schedules a re-run of the audit about a month after v1.6.0 to test its revisit triggers. The pipeline was ad hoc and lives only in the user's scratch dir: a read-only metrics script over transcript JSONL, a trace condenser, two classifier rubrics, and a shard/prompt generator. If that dir is cleaned first, the re-run starts from nothing. Options: copy the scripts and rubrics somewhere durable (not this public repo — they are generic, but the traces they produce quote private work code), or rebuild from the method description in `feature-orchestrate.md` Spike findings 2026-09-24, which is complete enough to rebuild from.
+
 ## Borrow-list (engineering-practice, pull when a gap bites)
 
 From mattpocock/skills (MIT) and asrafilll/work-skills. **Bodies read 2026-07-19** — assessments below are grounded, not name-guesses. Ordered roughly by borrow-readiness:

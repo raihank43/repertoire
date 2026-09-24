@@ -30,7 +30,7 @@ Doctrine (from mattpocock/skills): a user-invoked skill may invoke model-invoked
 
 **If (a) fails, do not lock regardless of (b)** — put a gate in the body instead. A body gate is model-enforced and therefore weaker than the flag, but it is read on load, whereas a locked skill is never reached at all.
 
-Live worked examples: `orchestrate` fails (a) → model-invoked, with a self-initiative gate at the top of §1 and an anti-trigger in its `description`. `continue` passes (a) → stays locked. When a skill is model-invoked, its `description` is the **pre-load routing contract** — carry the negative trigger there, not only in the body, or the body's gate arrives after the tokens are already spent.
+Live worked examples: `orchestrate` fails (a) → model-invoked, with a self-initiative gate (SKILL.md §0 since v1.6.0) and an anti-trigger in its `description`. `continue` passes (a) → stays locked. When a skill is model-invoked, its `description` is the **pre-load routing contract** — carry the negative trigger there, not only in the body, or the body's gate arrives after the tokens are already spent.
 
 ### `## Ending` section (skills producing durable knowledge)
 
@@ -101,7 +101,7 @@ Shape names the artifact bundle ("skill + 6 agents", "rule + command"). Invocati
 
 **Never fan out concurrent probes against a single live shared credential, session, or quota pool — single-flight only, in any context.** Born 2026-07-30 from a real incident in the user's Setsuna repo: during a ~2h debugging spiral over a proxy auth failure, the orchestrator escalated a single-probe question into **three concurrent probes against the user's one live shared credential**, tripping the app's auth-failure banner on the user's live session — twice. Concurrent probes against one live resource can lock accounts, trip rate limits and abuse detectors, corrupt session state, and burn shared quota — and the blast radius lands on the *user's* running work, not the repo. One incident of that class qualifies a rule.
 
-The operation-shaped ban lives in CLAUDE.md's Invariants (always-on, mechanically checkable). Its judgment-shaped sibling — the consent gate before a *second consequential touch* of live state — deliberately did **not** graduate to an invariant: "consequential" needs interpretation, which is exactly where a mid-spiral agent slips through; it lives in orchestrate's SKILL.md §5, where the operational definition has room. Full design + rejected alternatives: `docs/feature-orchestrate.md` → Revision 2026-07-30.
+The operation-shaped ban lives in CLAUDE.md's Invariants (always-on, mechanically checkable). Its judgment-shaped sibling — the consent gate before a *second consequential touch* of live state — deliberately did **not** graduate to an invariant: "consequential" needs interpretation, which is exactly where a mid-spiral agent slips through; it lives in orchestrate's SKILL.md §8 (§5 before v1.6.0), where the operational definition has room. Full design + rejected alternatives: `docs/feature-orchestrate.md` → Revision 2026-07-30.
 
 ### Versioning
 

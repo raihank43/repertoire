@@ -3,6 +3,62 @@ Full session reports from `/checkpoint`, newest first. The cold-start brief live
 PLAN.md's Current Focus; this file is the history behind it. Full entries are uncapped;
 `lite:` entries are budgeted summaries whose durable detail lives in native docs.
 
+## 2026-09-24 — 307ef5a — v1.5.0 + v1.6.0: a field audit of real use rebuilds orchestrate
+
+**Scope.** Baseline `05be82f` confirmed an ancestor. Swept `05be82f..HEAD`: 8 commits across two releases. The working tree was clean at the start of the checkpoint.
+
+**What shipped.**
+
+- **v1.5.0: the invocation-mode flip** (2026-08-26, forged and built in one session). Foreign-model sessions were globbing the filesystem for orchestrate's `SKILL.md`. A contrast-pair spike showed that `disable-model-invocation: true` removes a skill from the model-visible catalog *entirely*, so a locked skill can't even be suggested. Orchestrate became model-invoked, guarded by a self-initiative gate and a `description` anti-trigger. `continue` stayed locked. The flag's coupling to catalog visibility became a house convention with a two-part locking test (RULES §Invocation mode). Live validation proved the *routing* layer; the gate's *execution* layer has never fired.
+- **v1.6.0: the field-audit redesign** (2026-09-24). The user's question: were slow agents overthinking, genuinely busy, or badly briefed? The user proposed answering it from the transcripts themselves. The audit covered every session in about 2 months where an Opus 5 orchestrator loaded the skill: **98 sessions, 681 subagent runs**, across personal and work repos.
+  - **Answer:** mostly the brief. Slow runners bundled process/layer seams (~65% would have sliced; the fast controls sliced 0 of 11). Slow reviewers got open-ended asks; the same diff and the same model took 17.8 min with no verdict under an open brief, versus 4.6 min and a real FAIL under three enumerated questions, and **8 of 30 slow reviews delivered nothing at all**. False premises in briefs were the costliest single defect.
+  - **The unasked finding:** the orchestrator did **54% of delegable work itself** (5,045 of 9,306 main-thread calls), in bursts of up to 138 calls. Its justifications were up-front size forecasts that quoted §1's own wording back. DB probing (~320 calls) and app-driving (~880) had no agent to go to.
+  - **Forged** (9 decisions, all user-confirmed apart from two marked derived):
+    - a running counter in place of the "< ~5 min" forecast;
+    - a closed "yours" list;
+    - host agents outrank bundle defaults;
+    - spiker INVESTIGATE / RETRIEVE / VERIFY;
+    - slice-at-seams;
+    - a scoped, pinned, verdict-first reviewer;
+    - `[verified]`/`[believed]` brief tagging;
+    - agent-file hardening;
+    - SKILL.md restructured into decision order.
+  - **Built** in three phases: agent files, the SKILL.md rewrite, then docs, version and smoke.
+
+**Verification evidence.**
+
+- `claude plugin validate` green after every phase. The description is colon-free.
+- **Rule-preservation gate:** before the rewrite, all 93 v1.5.0 rules plus the 13 new ones went into a checklist, and a task-reviewer gated the rewrite against it with ≤8 CHECKS and verdict first. **Round 1 FAIL:** the restructure had dropped "a spike's deliverable is a finding, not a change" from the orchestrator side. It was only implied by the new verdict table, and a read-through would not have caught it. **Round 2 PASS** (2.5 min, then 3.4 min). This was also the new reviewer contract's first real use, on its own rewrite.
+- **Live smoke GREEN, two arms** (CLI 2.1.281, `--plugin-dir`, scratch fixtures):
+  - **Cross-seam feature:** 6 brief-prep reads, zero self-edits. It sliced at the api↔web seam and chose phased over parallel, stating why (a shared test file). The briefs were tagged `[verified]`, with a PRE-EXISTING note, one PINNED reviewer per slice, and numbered CHECKS. 9/9 tests passed.
+  - **Data question:** routed straight to spiker RETRIEVE with the field names marked `[believed]`, and returned the correct planted record with file:line evidence.
+  - **Finding, fixed in the same build:** the new "match reviewer depth" line led the orchestrator to request `model: sonnet`, which this host doesn't serve, so both reviewers failed loudly at spawn. The line now says to respawn without the override.
+
+**Root causes and blind spots.**
+
+- The audit's classifier layer used cheap-model judgments over condensed traces. Two of its claims were wrong when spot-checked against raw data: a thinking-volume figure was overstated about 10×, and a no-verdict count was off by one. Numbers the build decisions depend on come from the deterministic metrics script, not the classifiers.
+- **Not exercised by the smoke:** the counter actually tripping, VERIFY, host-agent precedence, a reviewer FAIL round, and verdict-first under a kill.
+- The audit is one user, one orchestrator model and about 2 months. The revisit triggers are written down (feature doc), and a re-run is scheduled for about a month out.
+
+**Violation audit.**
+
+- **Near-miss:** the first smoke run was launched from the repertoire repo root with `--add-dir` pointing at the fixture. `--add-dir` does not move the working directory, so the orchestrator under test began reading the real repo. It was killed before any edit, and both trees were verified clean. No written rule was violated. **Outcome, user-confirmed: leave it as a feature-doc Gotcha** (cd into the fixture; check the init event's cwd). It stays below the Invariants bar because the harm class is recoverable with git.
+- **Field-surfaced (from the audit, in another project's session, not in this repo):** a runner's `rm -rf scratch/` destroyed untracked files, which is exactly Invariant #1's operation. **Outcome: agent-file hardening.** Literal-enumeration deletes are now in `task-runner.md`, so the plugin no longer relies on each host carrying its own guard. The host session had separately added a deny hook.
+- **Classifier refusals, handled correctly:** the nested headless smoke was refused as `[Create Unsafe Agents]`, and the agent writing its own allow rule was refused as `[Self-Modification]`. Neither was worked around. The user added a project-local `Bash(claude -p *)` rule in the gitignored `.claude/settings.local.json`.
+
+**Captured from conversation this checkpoint.**
+
+- feature-orchestrate **Revision 2026-09-24**, a derived bullet: security-sensitive work narrowed (the decision stays with the orchestrator; the change can be delegated through advisor trigger (d)). The preservation reviewer surfaced it; the orchestrator accepted it.
+- feature-orchestrate **Gotchas:** the `--add-dir` near-miss.
+- **BACKLOG 2026-09-24:** preserve the ad hoc audit tooling before the scheduled re-run.
+- RULES: stale SKILL.md section references fixed (§1 → §0 for the gate, §5 → §8 for the consent gate).
+- User memory: on unfamiliar design forks the user wants every option explained in prose, and does change their pick after hearing it. A keep-alive monitor preference was also saved earlier this session.
+
+**Recipes worth keeping.**
+
+- **Field-audit method** (feature-orchestrate Spike findings, 2026-09-24): deterministic metrics → condensed traces → parallel cheap classifiers with fast-run control groups → spot-check against raw data.
+- **Rule-preservation gate for any prompt rewrite:** build the checklist *first*, then have a reviewer gate the rewrite against it.
+
 ## 2026-08-10 — 05be82f — v1.1.0 → v1.4.0: three minor releases, two forges, and the residents start catching their own bugs
 
 **Scope.** Baseline `e80d763` confirmed an ancestor; swept `e80d763..HEAD` = 9 commits across three releases. Working tree clean at checkpoint time.
