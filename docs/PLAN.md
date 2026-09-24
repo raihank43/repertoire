@@ -12,7 +12,7 @@
 
 > The 30-second cold-start brief — so a fresh session (or a post-compaction one) can resume *without re-reading everything*. Kept current by `/checkpoint`: **the tight brief only** lives here (~15–30 lines); the full session reports go to `docs/CHECKPOINTS.md` (created by `/checkpoint`, newest first). **Read this first**, then read only the docs the "Start here" line points to. **"Next" is the tip, not the queue:** the full picture is the Features table below (priority-ordered) plus any un-triaged ideas in `docs/BACKLOG.md`.
 
-_Last checkpoint: 05be82f (2026-08-10)_
+_Last checkpoint: 5ae55d9 (2026-09-24)_
 
 - **Just shipped:** **orchestrate v1.6.0 (a field-audit redesign)**, forged, built and live-validated 2026-09-24. A field audit of 98 real sessions and 681 subagent runs found two things. Slow agents were mostly **badly briefed** (bundled seams, open-ended reviews, false premises) rather than overthinking. And the orchestrator **did 54% of delegable work itself**, justified by up-front size forecasts. What shipped:
   - a running-counter delegation trigger (5th tool call or 2nd edited file);
